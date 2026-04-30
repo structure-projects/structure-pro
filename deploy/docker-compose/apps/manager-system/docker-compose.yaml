@@ -1,9 +1,12 @@
 version: "3.8"
 services:
-  user-center:
-    image: registry.cn-hangzhou.aliyuncs.com/structured/admin-center:latest
+  content-center:
+    image: registry.cn-hangzhou.aliyuncs.com/structured/structured-admin-center:latest
     restart: always
-    hostname: user-center #服务内不使用host进行通信一定要配置
+    pull_policy: always
+    hostname: content-center #服务内不使用host进行通信一定要配置
+    env_file:
+      - .env
     deploy: # 这个是编排配置默认节点配置为1 通常这个在配置在docker swarm 环境下使用
       restart_policy:
         condition: on-failure
@@ -23,10 +26,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-    extra_hosts: #如果nacos在部署的并不是集群环境请配置如下host作为映射服务才能运行 后被的nacos是你的nacos默认情况下不用修改
-      - "nacos-0.nacos:nacos"
-      - "nacos-1.nacos:nacos"
-      - "nacos-2.nacos:nacos"
 networks:
   structure-cloud-work:
     driver: overlay
