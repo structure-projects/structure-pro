@@ -4,6 +4,70 @@
 
 structure-cloud-pro 是一个基于云原生的微服务架构脚手架方案，提供完整的容器化部署和管理方案，涵盖从开发、构建、部署到运维的全流程最佳实践。
 
+## 项目导航
+
+structure-projects 项目组包含多个子项目，涵盖微服务架构的各个领域：
+
+### 🏠 项目首页
+
+| 项目 | 链接 |
+|------|------|
+| **Structure Projects** | [https://github.com/structure-projects](https://github.com/structure-projects) |
+
+### 🔧 基础框架
+
+| 项目 | 描述 | 链接 |
+|------|------|------|
+| **structure-boot** | 单体项目的启动器 | [structure-projects/structure-boot](https://github.com/structure-projects/structure-boot) |
+| **structure-cloud** | 微服务版本依赖 | [structure-projects/structure-cloud](https://github.com/structure-projects/structure-cloud) |
+| **structure-security** | 安全认证框架 | [structure-projects/structure-security](https://github.com/structure-projects/structure-security) |
+| **structure-yudao** | 宇道框架 | [structure-projects/structure-yudao](https://github.com/structure-projects/structure-yudao) |
+
+### 👤 用户与认证中心
+
+| 项目 | 描述 | 链接 |
+|------|------|------|
+| **user-center** | 用户中心服务 | [structure-projects/structure-admin](https://github.com/structure-projects/structure-admin) |
+| **oauth-center** | 认证授权中心 | [structure-projects/structure-security](https://github.com/structure-projects/structure-security) |
+
+### 💬 消息与任务中心
+
+| 项目 | 描述 | 链接 |
+|------|------|------|
+| **structure-message** | 消息中心 | [structure-projects/structure-message](https://github.com/structure-projects/structure-message) |
+| **structure-job** | 调度中心 | [structure-projects/structure-job](https://github.com/structure-projects/structure-job) |
+
+### 🖥️ 前端应用
+
+| 项目 | 描述 | 链接 |
+|------|------|------|
+| **structure-admin-ui** | 管理后台前端 | [structure-projects/structure-admin-ui](https://github.com/structure-projects/structure-admin-ui) |
+| **structure-web-ui** | 基础前端框架 | [structure-projects/structure-web-ui](https://github.com/structure-projects/structure-web-ui) |
+| **ruoyi-ui** | 若依前台 | [structure-projects/ruoyi-ui](https://github.com/structure-projects/ruoyi-ui) |
+
+### 🔌 扩展与插件
+
+| 项目 | 描述 | 链接 |
+|------|------|------|
+| **structure-plugin** | 扩展插件 | [structure-projects/structure-plugin](https://github.com/structure-projects/structure-plugin) |
+| **structure-netty** | Netty 通信框架 | [structure-projects/structure-netty](https://github.com/structure-projects/structure-netty) |
+
+### 🚀 部署与运维
+
+| 项目 | 描述 | 链接 |
+|------|------|------|
+| **docker-compose** | Docker Compose 部署配置 | [structure-projects/docker-compose](https://github.com/structure-projects/docker-compose) |
+| **kubernetes** | Kubernetes 部署配置 | [structure-projects/kubernetes](https://github.com/structure-projects/kubernetes) |
+
+### 📦 若依集成项目
+
+| 项目 | 描述 | 链接 |
+|------|------|------|
+| **ruoyi-pro** | 若依项目实战 | [structure-projects/ruoyi-pro](https://github.com/structure-projects/ruoyi-pro) |
+| **structure-ruoyi** | 集成若依框架 | [structure-projects/structure-ruoyi](https://github.com/structure-projects/structure-ruoyi) |
+
+> 💡 更多项目请访问 [structure-projects](https://github.com/structure-projects) 组织页面查看完整项目列表。
+
 ## 技术架构
 
 ### 整体架构图
