@@ -350,6 +350,130 @@ docker-compose -f manager-system/docker-compose.yaml up -d
 - **Sentinel Dashboard**: http://localhost:8858 (sentinel/sentinel)
 - **Kong Admin**: http://localhost:8001
 
+### Docker Swarm 集群部署
+
+#### 1. 准备网络与环境
+
+```bash
+# 进入项目根目录
+cd deploy/docker-compose
+
+# 初始化 Docker Swarm（如果尚未初始化）
+docker swarm init --advertise-addr <YOUR_IP>
+
+# 创建 Overlay 网络
+docker network create --driver overlay --attachable structure-cloud-work
+```
+
+#### 2. 部署基础服务
+
+```bash
+cd basic
+
+# 使用 docker stack deploy 部署到 Swarm 集群
+docker stack deploy -c prometheus/docker-compose.yml prometheus
+docker stack deploy -c elasticsearch/docker-compose.yml elasticsearch
+docker stack deploy -c redis/docker-compose.yaml redis
+docker stack deploy -c mysql/docker-compose.yaml mysql
+docker stack deploy -c kafka/docker-compose.yml kafka
+docker stack deploy -c rabbitmq/docker-compose.yml rabbitmq
+docker stack deploy -c nacos/docker-compose.yaml nacos
+docker stack deploy -c skywalking/docker-compose.yml skywalking
+docker stack deploy -c alertmanager-grafana/docker-compose.yml alertmanager-grafana
+docker stack deploy -c logstash-kibana/docker-compose.yml logstash-kibana
+docker stack deploy -c sentinel-dashboard/docker-compose.yml sentinel
+docker stack deploy -c kong-gateway/docker-compose.yaml kong-gateway
+```
+
+#### 3. 部署原子服务
+
+```bash
+cd ../atom
+
+docker stack deploy -c user-center/docker-compose.yaml user-center
+docker stack deploy -c oauth-center/docker-compose.yaml oauth-center
+docker stack deploy -c content-center/docker-compose.yaml content-center
+docker stack deploy -c job-center/docker-compose.yaml job-center
+docker stack deploy -c admin-center/docker-compose.yaml admin-center
+```
+
+#### 4. 部署应用系统
+
+```bash
+cd ../apps
+
+docker stack deploy -c content-manager-system/docker-compose.yaml content-manager-system
+docker stack deploy -c manager-system/docker-compose.yaml manager-system
+```
+
+#### 5. Swarm 集群管理命令
+
+```bash
+# 查看所有服务
+docker service ls
+
+# 查看服务状态
+docker service ps <service_name>
+
+# 查看服务日志
+docker service logs <service_name>
+
+# 扩展服务副本数
+docker service scale <service_name>=3
+
+# 移除服务
+docker stack rm <stack_name>
+
+# 移除整个集群
+docker stack rm structure-cloud-work
+```
+
+#### 6. 验证部署
+
+访问入口与 Docker Compose 部署相同：
+- **Nacos 控制台**: http://localhost:8848/nacos (nacos/nacos)
+- **SkyWalking UI**: http://localhost:8080
+- **Grafana**: http://localhost:3000 (admin/admin123)
+- **Kibana**: http://localhost:5601
+- **Sentinel Dashboard**: http://localhost:8858 (sentinel/sentinel)
+- **Kong Admin**: http://localhost:8001
+
+#### 7. 清理 Swarm 集群
+
+```bash
+# 进入部署目录
+cd deploy/docker-compose
+
+# 按顺序移除应用系统
+docker stack rm content-manager-system
+docker stack rm manager-system
+
+# 移除原子服务
+docker stack rm user-center
+docker stack rm oauth-center
+docker stack rm content-center
+docker stack rm job-center
+docker stack rm admin-center
+
+# 移除基础服务
+docker stack rm prometheus
+docker stack rm elasticsearch
+docker stack rm redis
+docker stack rm mysql
+docker stack rm kafka
+docker stack rm rabbitmq
+docker stack rm nacos
+docker stack rm skywalking
+docker stack rm alertmanager-grafana
+docker stack rm logstash-kibana
+docker stack rm sentinel
+docker stack rm kong-gateway
+
+# 等待服务移除完成后清理网络
+sleep 10
+docker network rm structure-cloud-work
+```
+
 ## 🚀 快速启动脚本汇总
 
 为了方便不同场景使用，项目提供了多种环境的快速启动脚本：
@@ -368,6 +492,8 @@ docker-compose -f manager-system/docker-compose.yaml up -d
 | **start-local-docker-compose.sh** | 启动本地基础服务 | 快速启动基础组件 | [deploy/scripts/start-local-docker-compose.sh](deploy/scripts/start-local-docker-compose.sh) |
 | **start-atom-services.sh** | 启动原子服务 | 原子服务启动 | [deploy/scripts/start-atom-services.sh](deploy/scripts/start-atom-services.sh) |
 | **start-apps.sh** | 启动应用系统 | 应用系统启动 | [deploy/scripts/start-apps.sh](deploy/scripts/start-apps.sh) |
+| **deploy-swarm.sh** | Docker Swarm 集群部署 | Swarm 集群部署 | [deploy/scripts/deploy-swarm.sh](deploy/scripts/deploy-swarm.sh) |
+| **clean-swarm.sh** | 清理 Swarm 集群 | Swarm 集群清理 | [deploy/scripts/clean-swarm.sh](deploy/scripts/clean-swarm.sh) |
 
 ### 📋 快速上手示例
 
