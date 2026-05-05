@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "alertmanager-grafana.alertmanager.fullname" . }}
+  labels:
+    {{- include "alertmanager-grafana.labels" . | nindent 4 }}
+    component: alertmanager
+spec:
+  type: {{ .Values.alertmanager.service.type }}
+  ports:
+    {{- toYaml .Values.alertmanager.service.ports | nindent 4 }}
+  selector:
+    {{- include "alertmanager-grafana.selectorLabels" . | nindent 4 }}
+    component: alertmanager
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "alertmanager-grafana.grafana.fullname" . }}
+  labels:
+    {{- include "alertmanager-grafana.labels" . | nindent 4 }}
+    component: grafana
+spec:
+  type: {{ .Values.grafana.service.type }}
+  ports:
+    - port: {{ .Values.grafana.service.port }}
+      targetPort: 3000
+      name: http
+  selector:
+    {{- include "alertmanager-grafana.selectorLabels" . | nindent 4 }}
+    component: grafana

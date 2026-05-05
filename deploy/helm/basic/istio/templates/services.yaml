@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "istio.istiod.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "istio.labels" . | nindent 4 }}
+    component: istiod
+spec:
+  type: {{ .Values.istiod.service.type }}
+  ports:
+    {{- toYaml .Values.istiod.service.ports | nindent 4 }}
+  selector:
+    {{- include "istio.selectorLabels" . | nindent 4 }}
+    component: istiod
+---
+{{- if .Values.istio_gateway.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "istio.gateway.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "istio.labels" . | nindent 4 }}
+    component: gateway
+spec:
+  type: {{ .Values.istio_gateway.service.type }}
+  ports:
+    {{- toYaml .Values.istio_gateway.service.ports | nindent 4 }}
+  selector:
+    {{- include "istio.selectorLabels" . | nindent 4 }}
+    component: gateway
+{{- end }}

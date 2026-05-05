@@ -1,0 +1,150 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "logstash-kibana.logstash.fullname" . }}
+  labels:
+    {{- include "logstash-kibana.labels" . | nindent 4 }}
+    component: logstash
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "logstash-kibana.selectorLabels" . | nindent 6 }}
+      component: logstash
+  template:
+    metadata:
+      labels:
+        {{- include "logstash-kibana.selectorLabels" . | nindent 8 }}
+        component: logstash
+    spec:
+      serviceAccountName: {{ include "logstash-kibana.serviceAccountName" . }}
+      containers:
+        - name: logstash
+          image: "{{ .Values.logstash.image.repository }}:{{ .Values.logstash.image.tag }}"
+          imagePullPolicy: {{ .Values.logstash.image.pullPolicy }}
+          ports:
+            {{- toYaml .Values.logstash.service.ports | nindent 12 }}
+          env:
+            - name: "LS_JAVA_OPTS"
+              value: "-Xms512m -Xmx512m"
+            - name: "XPACK_MONITORING_ENABLED"
+              value: "true"
+          resources:
+            {{- toYaml .Values.logstash.resources | nindent 12 }}
+          volumeMounts:
+            - name: pipeline
+              mountPath: /usr/share/logstash/pipeline
+            - name: storage
+              mountPath: /var/log/app
+          livenessProbe:
+            tcpSocket:
+              port: 5044
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 9600
+            initialDelaySeconds: 10
+            periodSeconds: 5
+      volumes:
+        - name: pipeline
+          configMap:
+            name: {{ include "logstash-kibana.logstash.fullname" . }}-pipeline
+        - name: storage
+        {{- if .Values.logstash.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "logstash-kibana.logstash.fullname" . }}-pvc
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "logstash-kibana.logstash.fullname" . }}-pvc
+  labels:
+    {{- include "logstash-kibana.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.logstash.persistence.accessMode | default "ReadWriteOnce" }}
+  resources:
+    requests:
+      storage: {{ .Values.logstash.persistence.size | default "5Gi" }}
+  {{- if .Values.logstash.persistence.storageClass }}
+  storageClassName: {{ .Values.logstash.persistence.storageClass }}
+  {{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "logstash-kibana.kibana.fullname" . }}
+  labels:
+    {{- include "logstash-kibana.labels" . | nindent 4 }}
+    component: kibana
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "logstash-kibana.selectorLabels" . | nindent 6 }}
+      component: kibana
+  template:
+    metadata:
+      labels:
+        {{- include "logstash-kibana.selectorLabels" . | nindent 8 }}
+        component: kibana
+    spec:
+      serviceAccountName: {{ include "logstash-kibana.serviceAccountName" . }}
+      containers:
+        - name: kibana
+          image: "{{ .Values.kibana.image.repository }}:{{ .Values.kibana.image.tag }}"
+          imagePullPolicy: {{ .Values.kibana.image.pullPolicy }}
+          ports:
+            - containerPort: 5601
+              name: http
+          env:
+            {{- range .Values.kibana.env }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.kibana.resources | nindent 12 }}
+          volumeMounts:
+            - name: storage
+              mountPath: /usr/share/kibana/data
+          livenessProbe:
+            httpGet:
+              path: /api/status
+              port: 5601
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /api/status
+              port: 5601
+            initialDelaySeconds: 10
+            periodSeconds: 5
+      volumes:
+        - name: storage
+        {{- if .Values.kibana.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "logstash-kibana.kibana.fullname" . }}-pvc
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "logstash-kibana.kibana.fullname" . }}-pvc
+  labels:
+    {{- include "logstash-kibana.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.kibana.persistence.accessMode | default "ReadWriteOnce" }}
+  resources:
+    requests:
+      storage: {{ .Values.kibana.persistence.size | default "5Gi" }}
+  {{- if .Values.kibana.persistence.storageClass }}
+  storageClassName: {{ .Values.kibana.persistence.storageClass }}
+  {{- end }}
