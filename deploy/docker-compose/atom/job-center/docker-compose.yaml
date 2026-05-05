@@ -3,8 +3,9 @@ services:
   job-center:
     image: registry.cn-hangzhou.aliyuncs.com/structured/structured-job-center:latest
     restart: always
-    pull_policy: always
     hostname: job-center #服务内不使用host进行通信一定要配置
+    ports:
+      - 18080:8080
     deploy: # 这个是编排配置默认节点配置为1 通常这个在配置在docker swarm 环境下使用
       restart_policy:
         condition: on-failure
@@ -16,7 +17,7 @@ services:
       - structure-cloud-work
     environment:
       - JAVA_OPTS=-Xms256m -Xmx1024m
-      - PARAMS=-Dfile.encoding=UTF-8 -Dspring.profiles.active=pro -Djava.security.egd=file:/dev/./urandom -Duser.timezone=Asia/Shanghai
+      - PARAMS=-Dfile.encoding=UTF-8 -Dspring.profiles.active=prod -Djava.security.egd=file:/dev/./urandom -Duser.timezone=Asia/Shanghai
 networks:
   structure-cloud-work:
     driver: overlay

@@ -1,8 +1,7 @@
 version: '3.8'
 services:
   elasticsearch:
-#    image: elasticsearch:8.16.0
-    image: elasticsearch:8.7.0
+    image: elasticsearch:8.16.0
     container_name: elasticsearch
     networks:
       - structure-cloud-work
@@ -10,6 +9,9 @@ services:
       resources:
         limits:
           memory: 2048M
+      placement:
+        constraints:
+          - node.role == master
     volumes:
       - "./data/data:/usr/share/elasticsearch/data"
       - "./data/backup:/usr/share/elasticsearch/backup"

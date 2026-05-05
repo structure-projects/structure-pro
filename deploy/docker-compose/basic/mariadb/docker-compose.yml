@@ -1,0 +1,27 @@
+networks:
+    structure-cloud-work:
+        external: true
+services:
+    mariadb:
+        container_name: ${CONTAINER_NAME}
+        deploy:
+            resources:
+                limits:
+                    cpus: ${CPUS}
+                    memory: ${MEMORY_LIMIT}
+            placement:
+              constraints:
+                - node.role == master
+        environment:
+            MYSQL_ROOT_PASSWORD: ${PANEL_DB_ROOT_PASSWORD}
+        image: mariadb:11.5.2
+        labels:
+            createdBy: Apps
+        networks:
+            - structure-cloud-work
+        ports:
+            - ${HOST_IP}:${PANEL_APP_PORT_HTTP}:3306
+        restart: always
+        volumes:
+            - ./db/data:/var/lib/mysql
+            - ./conf/my.cnf:/etc/mysql/my.cnf

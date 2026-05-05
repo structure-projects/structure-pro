@@ -1,0 +1,26 @@
+networks:
+    1panel-network:
+        external: true
+services:
+    openldap:
+        container_name: ${CONTAINER_NAME}
+        deploy:
+            resources:
+                limits:
+                    cpus: ${CPUS}
+                    memory: ${MEMORY_LIMIT}
+        environment:
+            LDAP_ADMIN_PASSWORD: ${LDAP_ADMIN_PASSWORD}
+            LDAP_ADMIN_USERNAME: ${LDAP_ADMIN_USERNAME}
+            LDAP_ROOT: ${LDAP_ROOT}
+        image: bitnami/openldap:2.6.8
+        labels:
+            createdBy: Apps
+        networks:
+            - 1panel-network
+        ports:
+            - ${HOST_IP}:${LDAP_PORT}:1389
+        restart: always
+        volumes:
+            - ./data:/bitnami/openldap
+version: "3"
