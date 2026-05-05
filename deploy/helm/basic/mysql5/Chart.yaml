@@ -1,0 +1,6 @@
+apiVersion: v2
+name: mysql5
+description: mysql5.7数据库
+type: application
+version: 1.0.1
+appVersion: "5.7.44"

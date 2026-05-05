@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "influxdb.fullname" . }}
+  labels:
+    {{- include "influxdb.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "influxdb.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "influxdb.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "influxdb.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8086
+              name: http
+              protocol: TCP
+          env:
+            - name: DOCKER_INFLUXDB_INIT_MODE
+              value: {{ .Values.config.DOCKER_INFLUXDB_INIT_MODE }}
+            - name: DOCKER_INFLUXDB_INIT_USERNAME
+              value: {{ .Values.config.DOCKER_INFLUXDB_INIT_USERNAME }}
+            - name: DOCKER_INFLUXDB_INIT_PASSWORD
+              value: {{ .Values.config.DOCKER_INFLUXDB_INIT_PASSWORD }}
+            - name: DOCKER_INFLUXDB_INIT_ORG
+              value: {{ .Values.config.DOCKER_INFLUXDB_INIT_ORG }}
+            - name: DOCKER_INFLUXDB_INIT_BUCKET
+              value: {{ .Values.config.DOCKER_INFLUXDB_INIT_BUCKET }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: influxdb-data
+              mountPath: /var/lib/influxdb2
+            - name: influxdb-config
+              mountPath: /etc/influxdb2
+      volumes:
+        - name: influxdb-data
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "influxdb.fullname" . }}-data
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        - name: influxdb-config
+          emptyDir: {}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

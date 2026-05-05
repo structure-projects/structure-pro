@@ -1,0 +1,6 @@
+apiVersion: v2
+name: prometheus
+description: prometheus监控系统
+type: application
+version: 1.0.1
+appVersion: "v2.55.1"
