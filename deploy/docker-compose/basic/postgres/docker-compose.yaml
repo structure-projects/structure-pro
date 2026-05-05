@@ -6,11 +6,9 @@ services:
     hostname: postgres
     networks:
       - structure-cloud-work
-#    env_file:
-#      - .env
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     deploy:
       restart_policy:
         condition: on-failure
@@ -20,8 +18,8 @@ services:
           - node.role == master
     ports:
       - "5432:5432"
-      volumes:
-        - ./data:/var/lib/postgresql/data
+    volumes:
+      - ./data:/var/lib/postgresql/data
 networks:
   structure-cloud-work:
     external: true

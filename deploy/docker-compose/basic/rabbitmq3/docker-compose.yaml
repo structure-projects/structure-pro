@@ -4,6 +4,14 @@ services:
     image: rabbitmq:3.8-management
     container_name: rabbitmq
     restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: 0
+          memory: 0
+      placement:
+        constraints:
+          - node.role == worker
     networks:
       - structure-cloud-work
     volumes:
@@ -17,8 +25,8 @@ services:
       - 25672:25672
     environment:
       RABBITMQ_DEFAULT_VHOST: '/'
-      RABBITMQ_DEFAULT_USER: root
-      RABBITMQ_DEFAULT_PASS: 123456
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
 networks:
   structure-cloud-work:
     driver: overlay

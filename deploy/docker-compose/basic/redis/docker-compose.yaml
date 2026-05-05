@@ -5,6 +5,14 @@ services:
     container_name: redis
     restart: always
     privileged: true
+    deploy:
+      resources:
+        limits:
+          cpus: 0
+          memory: 0
+      placement:
+        constraints:
+          - node.role == worker
     networks:
       - structure-cloud-work
     ports:

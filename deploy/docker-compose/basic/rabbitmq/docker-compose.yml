@@ -1,5 +1,5 @@
 networks:
-    1panel-network:
+    structure-cloud-work:
         external: true
 services:
     rabbitmq:
@@ -9,6 +9,9 @@ services:
                 limits:
                     cpus: ${CPUS}
                     memory: ${MEMORY_LIMIT}
+            placement:
+              constraints:
+                - node.role == worker
         environment:
             - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
             - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
@@ -17,7 +20,7 @@ services:
         labels:
             createdBy: Apps
         networks:
-            - 1panel-network
+            - structure-cloud-work
         ports:
             - ${HOST_IP}:${PANEL_APP_PORT_SERVICE}:5672
             - ${HOST_IP}:${PANEL_APP_PORT_HTTP}:15672

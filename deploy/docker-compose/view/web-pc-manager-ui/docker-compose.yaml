@@ -16,7 +16,7 @@ services:
     #容器名称
     container_name: structure-admin-ui
     ports:       # 映射端口
-      - "19000:80"
+      - "17000:80"
 networks:
   structure-cloud-work:
     driver: overlay
