@@ -1,0 +1,41 @@
+server:
+  port: 7777
+spring:
+  profiles:
+    active: dev
+  application:
+    name: admin-center
+  cloud:
+    nacos:
+      server-addr: ${nacos-server}
+      discovery:
+        namespace: 5a4e4c1f-beda-4ae5-a3d7-428950e7473b
+        metadata:
+          version: 1.0.1 # 服务实例的版本号，可用于灰度发布
+        group: ${spring.profiles.active}
+      config:
+        server-addr:  ${nacos-server}
+        namespace: 5a4e4c1f-beda-4ae5-a3d7-428950e7473b
+        group: ${spring.profiles.active}
+        name: ${spring.application.name}
+        file-extension: yaml
+  main:
+    allow-circular-references: true
+management:
+  endpoint:
+    health:
+      show-details: always
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+nacos-server: nacos-server:8848
+server:
+  port: 18000
+---
+spring:
+  config:
+    activate:
+      on-profile: pro
+nacos-server: nacos-0.nacos:8848,nacos-1.nacos:8848,nacos-2.nacos:8848

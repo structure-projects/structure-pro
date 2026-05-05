@@ -1,0 +1,137 @@
+replicaCount: 1
+
+logstash:
+  image:
+    repository: logstash
+    pullPolicy: IfNotPresent
+    tag: "8.16.0"
+
+  service:
+    type: ClusterIP
+    ports:
+      - name: beats
+        port: 5044
+        targetPort: 5044
+      - name: tcp
+        port: 5000
+        targetPort: 5000
+      - name: monitoring
+        port: 9600
+        targetPort: 9600
+
+  resources: {}
+    # limits:
+    #   cpu: 2000m
+    #   memory: 2Gi
+    # requests:
+    #   cpu: 500m
+    #   memory: 512Mi
+
+  pipeline:
+    logstash.conf: |
+      input {
+        beats {
+          port => 5044
+          codec => json
+        }
+        tcp {
+          port => 5000
+          codec => json
+        }
+      }
+
+      filter {
+        json {
+          source => "message"
+          target => "parsed"
+        }
+        date {
+          match => ["timestamp", "ISO8601", "yyyy-MM-dd HH:mm:ss.SSS"]
+          target => "@timestamp"
+        }
+      }
+
+      output {
+        elasticsearch {
+          hosts => ["http://elasticsearch:9200"]
+          index => "app-logs-%{+YYYY.MM.dd}"
+          user => "elastic"
+          password => "123456"
+        }
+      }
+
+  persistence:
+    enabled: true
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 5Gi
+
+kibana:
+  image:
+    repository: kibana
+    pullPolicy: IfNotPresent
+    tag: "8.16.0"
+
+  service:
+    type: ClusterIP
+    port: 5601
+
+  resources: {}
+    # limits:
+    #   cpu: 1000m
+    #   memory: 1Gi
+    # requests:
+    #   cpu: 250m
+    #   memory: 512Mi
+
+  env:
+    ELASTICSEARCH_HOSTS: "http://elasticsearch:9200"
+    ELASTICSEARCH_USERNAME: "elastic"
+    ELASTICSEARCH_PASSWORD: "123456"
+    XPACK_SECURITY_ENABLED: "false"
+    SERVER_NAME: "kibana.local"
+
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    hosts:
+      - host: kibana.local
+        paths:
+          - path: /
+            pathType: Prefix
+    tls: []
+
+  persistence:
+    enabled: true
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 5Gi
+
+serviceAccount:
+  create: true
+  annotations: {}
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts: []
+  tls: []
+
+resources: {}
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

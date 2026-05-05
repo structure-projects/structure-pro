@@ -1,0 +1,32 @@
+name: web-pc-manager-ui
+description: Web PC Manager UI
+region: cn-north-4
+project: {project}
+function:
+  name: web-pc-manager-ui
+  description: Web PC Manager UI
+  runtime: CustomImage
+  handler: ''
+  memorySize: 1024
+  timeout: 300
+  codeType: CustomImage
+  customImage:
+    image: registry.cn-hangzhou.aliyuncs.com/structured/web-pc-manager-ui:latest
+    port: 80
+  environmentVariables:
+
+  vpcId: ''
+  subnetId: ''
+  enterpriseProjectId: default
+  agency: ''
+  xrole: ''
+  concurrency:
+    strategy: dynamic
+    maxConcurrent: 100
+  triggers:
+    - triggerType: APIG
+      eventData:
+        auth: IAM
+        name: web-pc-manager-ui-apig
+        protocol: HTTP
+        timeout: 5000

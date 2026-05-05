@@ -1,0 +1,49 @@
+appId: {{appId}}
+component: scf
+name: {{service_name}}
+stage: prod
+org: {{org}}
+app: {{service_name}}-app
+inputs:
+  name: {{service_name}}
+  src:
+    src: ./
+    exclude:
+      - .env
+  region: ap-guangzhou
+  runtime: CustomContainer
+  description: {{service_description}}
+  namespace: default
+  type: web
+  memorySize: {{memory}}
+  timeout: {{timeout}}
+  initTimeout: 300
+  cls:
+    logsetId: ''
+    topicId: ''
+  layers: []
+  environment:
+    variables:
+{{#each env_vars}}
+      {{key}}: {{value}}
+{{/each}}
+  containerConf:
+    image: {{image}}
+    containerPort: {{port}}
+    imageTag: latest
+  vpcConfig:
+    vpcId: ''
+    subnetId: ''
+  triggers:
+    - type: apigw
+      parameters:
+        name: {{service_name}}-apigw
+        protocols:
+          - http
+          - https
+        serviceName: serverless
+        description: API Gateway trigger for {{service_name}}
+        environment: release
+        endPoints:
+          - path: /
+            method: ANY

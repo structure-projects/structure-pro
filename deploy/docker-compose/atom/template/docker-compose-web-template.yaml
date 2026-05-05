@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  REPLACE_SERVICE: # 这个是用于替换服务名
+    image: REPLACE_IMAGE:REPLACE_IMAGE_VERSION # 这个是用于替换镜像和镜像版本的配置
+    restart: always
+    hostname: REPLACE_HOST_NAME #这个是用于替换HOST_NAME 通常和服务名一致
+    deploy: # 这个是编排配置默认节点配置为1 通常这个在配置在docker swarm 环境下使用
+      restart_policy:
+        condition: on-failure
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == worker
+    networks: # 服务一定在要同一个网络下运行这样hostname才会正常生效
+      - structure-cloud-work
+    environment: # 环境变量替换 使用 boot / cloud 方式启动 /app/boot/app.jar （or） /app/cloud/app.jar
+      - APP_PATH=/app/cloud/app.jar
+      - JAVA_OPTS=-Xms256m -Xmx1024m # 这个是jvm参数
+      - PARAMS=-Dfile.encoding=UTF-8 -Dspring.profiles.active=pro -Djava.security.egd=file:/dev/./urandom -Duser.timezone=Asia/Shanghai # 这个是spring boot 启动参数通常不用修改
+    healthcheck: #健康检查的探针，这里使用spring-boot的健康检查并没有对端口进行探测
+      test: [ "CMD","/bin/sh","/app/liveness.sh" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    extra_hosts: #如果nacos在部署的并不是集群环境请配置如下host作为映射服务才能运行 后被的nacos是你的nacos默认情况下不用修改
+      - "nacos-0.nacos:nacos"
+      - "nacos-1.nacos:nacos"
+      - "nacos-2.nacos:nacos"
+networks:
+  structure-cloud-work:
+    driver: overlay
+    external: true

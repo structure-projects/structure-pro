@@ -1,0 +1,6 @@
+apiVersion: v2
+name: memcached
+description: memcached缓存
+type: application
+version: 1.0.1
+appVersion: "1.6.22-alpine3.18"

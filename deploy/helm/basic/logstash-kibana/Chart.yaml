@@ -1,0 +1,6 @@
+apiVersion: v2
+name: logstash-kibana
+description: Logstash and Kibana Logging Stack
+type: application
+version: 1.0.0
+appVersion: "8.16.0"

@@ -1,0 +1,97 @@
+replicaCount: 1
+
+image:
+  oap:
+    repository: apache/skywalking-oap-server
+    pullPolicy: IfNotPresent
+    tag: "9.5.0"
+  ui:
+    repository: apache/skywalking-ui
+    pullPolicy: IfNotPresent
+    tag: "9.5.0"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+oap:
+  service:
+    type: ClusterIP
+    ports:
+      - name: grpc
+        port: 11800
+        targetPort: 11800
+      - name: rest
+        port: 12800
+        targetPort: 12800
+  resources: {}
+    # limits:
+    #   cpu: 2
+    #   memory: 4Gi
+    # requests:
+    #   cpu: 500m
+    #   memory: 1Gi
+  env:
+    - name: SW_STORAGE
+      value: elasticsearch
+    - name: SW_STORAGE_ES_CLUSTER_NODES
+      value: elasticsearch:9200
+    - name: SW_ES_USER
+      value: elastic
+    - name: SW_ES_PASSWORD
+      value: "123456"
+    - name: JAVA_OPTS
+      value: "-Xms2g -Xmx2g"
+
+ui:
+  service:
+    type: ClusterIP
+    port: 8080
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    hosts:
+      - host: skywalking.local
+        paths:
+          - path: /
+            pathType: Prefix
+  resources: {}
+    # limits:
+    #   cpu: 1
+    #   memory: 1Gi
+    # requests:
+    #   cpu: 250m
+    #   memory: 512Mi
+  env:
+    - name: SW_OAP_ADDRESS
+      value: "skywalking-oap:12800"
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts: []
+  tls: []
+
+resources: {}
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

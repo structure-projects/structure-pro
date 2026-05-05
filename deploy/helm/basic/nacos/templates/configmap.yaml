@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nacos-cm
+data:
+  mysql.db.name: nacos_config
+  mysql.host: mysql-n1
+  mysql.password: 123456
+  mysql.port: "3306"
+  mysql.user: root
+  nacos_datasource_platform: mysql

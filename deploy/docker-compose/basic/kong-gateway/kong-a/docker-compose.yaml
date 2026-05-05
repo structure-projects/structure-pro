@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  konga:
+    image: pantsel/konga:latest
+    restart: always
+    deploy:
+      restart_policy:
+        condition: on-failure
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == worker
+    networks:
+      - structure-cloud-work
+    environment:
+      DB_ADAPTER: postgres
+      DB_HOST: postgres
+      DB_USER: kong
+      DB_DATABASE: konga
+      DB_PASSWORD: kong
+    ports:
+      - "1337:1337"
+networks:
+  structure-cloud-work:
+    driver: overlay
+    external: true

@@ -1,0 +1,117 @@
+version: '3.8'
+services:
+  kong-database:
+    image: postgres:9.6
+    restart: always  #每次总是启动
+    hostname: kong-database
+    networks:
+      - structure-cloud-work
+    environment:
+      POSTGRES_USER: kong
+      POSTGRES_DB: kong
+      POSTGRES_PASSWORD: kong
+    deploy:
+      restart_policy:
+        condition: on-failure
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == master
+  kong-migration:
+    image: kong:latest
+    command: "kong migrations bootstrap"
+    deploy:
+      restart_policy:
+        condition: on-failure
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == worker
+    networks:
+      - structure-cloud-work
+    restart: on-failure
+    environment:
+      - KONG_DATABASE=postgres
+      - KONG_PG_DATABASE=kong
+      - KONG_PG_PASSWORD=kong
+      - KONG_PG_HOST=kong-database
+    depends_on:
+      - kong-database #依赖于kong-database服务
+  kong:
+    image: kong:latest
+    hostname: kong
+    restart: always
+    deploy:
+      restart_policy:
+        condition: on-failure
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == worker
+    networks:
+      - structure-cloud-work
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: kong-database
+      KONG_PG_PASSWORD: kong
+      KONG_PROXY_LISTEN: 0.0.0.0:8000
+      KONG_PROXY_LISTEN_SSL: 0.0.0.0:8443
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+    depends_on:
+      - kong-migration
+    links:
+      - kong-database
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://kong:8001"]
+      interval: 5s
+      timeout: 2s
+      retries: 15
+    ports:
+      - "8000:8000"
+      - "8443:8443"
+  #######################
+  #以下两个是konga  GUI
+  #######################
+  konga-prepare:
+    image: pantsel/konga:latest
+    command: "-c prepare -a postgres -u postgresql://kong:kong@kong-database:5432/konga"  #注意是用户名：密码@数据库服务名称：端口
+    deploy:
+      restart_policy:
+        condition: on-failure
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == worker
+    networks:
+      - structure-cloud-work
+    restart: on-failure
+    depends_on:
+      - kong        #依赖kong服务
+      - kong-database #依赖kong-database服务
+  konga:
+    image: pantsel/konga:latest
+    restart: always
+    deploy:
+      restart_policy:
+        condition: on-failure
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == worker
+    networks:
+      - structure-cloud-work
+    environment:
+      DB_ADAPTER: postgres
+      DB_HOST: kong-database
+      DB_USER: kong
+      DB_DATABASE: konga
+      DB_PASSWORD: kong #必须加上密码，不然会失败
+    depends_on:
+      - kong
+      - kong-database
+    ports:
+      - "1337:1337"
+networks:
+  structure-cloud-work:
+    driver: overlay
+    external: true

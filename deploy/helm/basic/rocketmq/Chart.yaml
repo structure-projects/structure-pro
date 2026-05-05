@@ -1,0 +1,6 @@
+apiVersion: v2
+name: rocketmq
+description: rocketmq消息队列
+type: application
+version: 1.0.1
+appVersion: "5.3.1"

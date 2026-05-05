@@ -1,0 +1,47 @@
+appId: {appId}
+component: scf
+name: kong-gateway
+stage: prod
+org: {org}
+app: kong-gateway-app
+inputs:
+  name: kong-gateway
+  src:
+    src: ./
+    exclude:
+      - .env
+  region: ap-guangzhou
+  runtime: CustomContainer
+  description: Kong API Gateway
+  namespace: default
+  type: web
+  memorySize: 2048
+  timeout: 300
+  initTimeout: 300
+  cls:
+    logsetId: ''
+    topicId: ''
+  layers: []
+  environment:
+    variables:
+
+  containerConf:
+    image: kong:latest
+    containerPort: 8000
+    imageTag: latest
+  vpcConfig:
+    vpcId: ''
+    subnetId: ''
+  triggers:
+    - type: apigw
+      parameters:
+        name: kong-gateway-apigw
+        protocols:
+          - http
+          - https
+        serviceName: serverless
+        description: API Gateway trigger for kong-gateway
+        environment: release
+        endPoints:
+          - path: /
+            method: ANY
