@@ -1,0 +1,50 @@
+appId: {appId}
+component: scf
+name: admin-center
+stage: prod
+org: {org}
+app: admin-center-app
+inputs:
+  name: admin-center
+  src:
+    src: ./
+    exclude:
+      - .env
+  region: ap-guangzhou
+  runtime: CustomContainer
+  description: Admin Center Service
+  namespace: default
+  type: web
+  memorySize: 2048
+  timeout: 300
+  initTimeout: 300
+  cls:
+    logsetId: ''
+    topicId: ''
+  layers: []
+  environment:
+    variables:
+      APP_PATH: /app/cloud/admin-center.jar
+      JAVA_OPTS: -Xms256m -Xmx1024m
+      PARAMS: -Dfile.encoding=UTF-8 -Dspring.profiles.active=pro -Djava.security.egd=file:/dev/./urandom -Duser.timezone=Asia/Shanghai
+
+  containerConf:
+    image: registry.cn-hangzhou.aliyuncs.com/structured/structured-admin-center:latest
+    containerPort: 8080
+    imageTag: latest
+  vpcConfig:
+    vpcId: ''
+    subnetId: ''
+  triggers:
+    - type: apigw
+      parameters:
+        name: admin-center-apigw
+        protocols:
+          - http
+          - https
+        serviceName: serverless
+        description: API Gateway trigger for admin-center
+        environment: release
+        endPoints:
+          - path: /
+            method: ANY

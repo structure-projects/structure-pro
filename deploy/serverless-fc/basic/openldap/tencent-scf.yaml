@@ -1,0 +1,47 @@
+appId: {appId}
+component: scf
+name: openldap
+stage: prod
+org: {org}
+app: openldap-app
+inputs:
+  name: openldap
+  src:
+    src: ./
+    exclude:
+      - .env
+  region: ap-guangzhou
+  runtime: CustomContainer
+  description: OpenLDAP Directory Service
+  namespace: default
+  type: web
+  memorySize: 2048
+  timeout: 300
+  initTimeout: 300
+  cls:
+    logsetId: ''
+    topicId: ''
+  layers: []
+  environment:
+    variables:
+
+  containerConf:
+    image: osixia/openldap:latest
+    containerPort: 389
+    imageTag: latest
+  vpcConfig:
+    vpcId: ''
+    subnetId: ''
+  triggers:
+    - type: apigw
+      parameters:
+        name: openldap-apigw
+        protocols:
+          - http
+          - https
+        serviceName: serverless
+        description: API Gateway trigger for openldap
+        environment: release
+        endPoints:
+          - path: /
+            method: ANY

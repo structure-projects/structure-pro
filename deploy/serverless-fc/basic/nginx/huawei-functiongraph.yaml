@@ -1,0 +1,32 @@
+name: nginx
+description: Nginx Web Server
+region: cn-north-4
+project: {project}
+function:
+  name: nginx
+  description: Nginx Web Server
+  runtime: CustomImage
+  handler: ''
+  memorySize: 1024
+  timeout: 300
+  codeType: CustomImage
+  customImage:
+    image: nginx:latest
+    port: 80
+  environmentVariables:
+
+  vpcId: ''
+  subnetId: ''
+  enterpriseProjectId: default
+  agency: ''
+  xrole: ''
+  concurrency:
+    strategy: dynamic
+    maxConcurrent: 100
+  triggers:
+    - triggerType: APIG
+      eventData:
+        auth: IAM
+        name: nginx-apig
+        protocol: HTTP
+        timeout: 5000

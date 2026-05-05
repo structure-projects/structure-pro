@@ -1,0 +1,49 @@
+appId: {appId}
+component: scf
+name: manager-system
+stage: prod
+org: {org}
+app: manager-system-app
+inputs:
+  name: manager-system
+  src:
+    src: ./
+    exclude:
+      - .env
+  region: ap-guangzhou
+  runtime: CustomContainer
+  description: Manager System Service
+  namespace: default
+  type: web
+  memorySize: 2048
+  timeout: 300
+  initTimeout: 300
+  cls:
+    logsetId: ''
+    topicId: ''
+  layers: []
+  environment:
+    variables:
+      JAVA_OPTS: -Xms256m -Xmx1024m
+      PARAMS: -Dfile.encoding=UTF-8 -Dspring.profiles.active=pro -Djava.security.egd=file:/dev/./urandom -Duser.timezone=Asia/Shanghai
+
+  containerConf:
+    image: registry.cn-hangzhou.aliyuncs.com/structured/structured-manager-system:latest
+    containerPort: 8080
+    imageTag: latest
+  vpcConfig:
+    vpcId: ''
+    subnetId: ''
+  triggers:
+    - type: apigw
+      parameters:
+        name: manager-system-apigw
+        protocols:
+          - http
+          - https
+        serviceName: serverless
+        description: API Gateway trigger for manager-system
+        environment: release
+        endPoints:
+          - path: /
+            method: ANY

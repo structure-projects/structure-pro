@@ -1,0 +1,32 @@
+name: rabbitmq3
+description: RabbitMQ 3 Message Broker
+region: cn-north-4
+project: {project}
+function:
+  name: rabbitmq3
+  description: RabbitMQ 3 Message Broker
+  runtime: CustomImage
+  handler: ''
+  memorySize: 2048
+  timeout: 300
+  codeType: CustomImage
+  customImage:
+    image: rabbitmq:3-management
+    port: 5672
+  environmentVariables:
+
+  vpcId: ''
+  subnetId: ''
+  enterpriseProjectId: default
+  agency: ''
+  xrole: ''
+  concurrency:
+    strategy: dynamic
+    maxConcurrent: 100
+  triggers:
+    - triggerType: APIG
+      eventData:
+        auth: IAM
+        name: rabbitmq3-apig
+        protocol: HTTP
+        timeout: 5000

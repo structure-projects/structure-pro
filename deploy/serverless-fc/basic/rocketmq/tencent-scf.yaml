@@ -1,0 +1,47 @@
+appId: {appId}
+component: scf
+name: rocketmq
+stage: prod
+org: {org}
+app: rocketmq-app
+inputs:
+  name: rocketmq
+  src:
+    src: ./
+    exclude:
+      - .env
+  region: ap-guangzhou
+  runtime: CustomContainer
+  description: RocketMQ Message Queue
+  namespace: default
+  type: web
+  memorySize: 4096
+  timeout: 600
+  initTimeout: 300
+  cls:
+    logsetId: ''
+    topicId: ''
+  layers: []
+  environment:
+    variables:
+
+  containerConf:
+    image: apache/rocketmq:latest
+    containerPort: 9876
+    imageTag: latest
+  vpcConfig:
+    vpcId: ''
+    subnetId: ''
+  triggers:
+    - type: apigw
+      parameters:
+        name: rocketmq-apigw
+        protocols:
+          - http
+          - https
+        serviceName: serverless
+        description: API Gateway trigger for rocketmq
+        environment: release
+        endPoints:
+          - path: /
+            method: ANY

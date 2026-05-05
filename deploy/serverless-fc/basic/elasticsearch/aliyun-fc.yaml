@@ -1,0 +1,70 @@
+edition: 3.0.0
+name: elasticsearch-service
+access: default
+vars:
+  region: cn-hangzhou
+  service:
+    name: elasticsearch
+    description: Elasticsearch Search Engine
+    internetAccess: true
+  function:
+    name: elasticsearch
+    description: Elasticsearch Search Engine
+    runtime: custom-container
+    cpu: 2
+    memorySize: 4096
+    timeout: 600
+    caPort: 9200
+    customContainerConfig:
+      image: elasticsearch:8.12.0
+      command: []
+      args: []
+      accelerationType: Default
+      webServerMode: true
+  triggers:
+    - name: httpTrigger
+      type: http
+      qualifier: LATEST
+      description: HTTP Trigger
+      httpTriggerConfig:
+        authType: anonymous
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - HEAD
+          - PATCH
+          - OPTIONS
+resources:
+  elasticsearch:
+    component: fc3
+    props:
+      region: ${vars.region}
+      description: ${vars.service.description}
+      internetAccess: ${vars.service.internetAccess}
+      role: acs:ram::{accountId}:role/AliyunFCDefaultRole
+      logConfig:
+        enableInstanceMetrics: false
+        enableRequestMetrics: false
+      vpcConfig:
+        vpcId: ''
+        vswitchIds: []
+        securityGroupId: ''
+      nasConfig:
+        userId: -1
+        groupId: -1
+        mountPoints: []
+      functionName: ${vars.function.name}
+      description: ${vars.function.description}
+      runtime: ${vars.function.runtime}
+      cpu: ${vars.function.cpu}
+      memorySize: ${vars.function.memorySize}
+      timeout: ${vars.function.timeout}
+      codeUri: ./
+      caPort: ${vars.function.caPort}
+      customContainerConfig: ${vars.function.customContainerConfig}
+      environmentVariables:
+        discovery.type: single-node
+
+      triggers: ${vars.triggers}

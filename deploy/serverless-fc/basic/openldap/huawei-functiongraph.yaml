@@ -1,0 +1,32 @@
+name: openldap
+description: OpenLDAP Directory Service
+region: cn-north-4
+project: {project}
+function:
+  name: openldap
+  description: OpenLDAP Directory Service
+  runtime: CustomImage
+  handler: ''
+  memorySize: 2048
+  timeout: 300
+  codeType: CustomImage
+  customImage:
+    image: osixia/openldap:latest
+    port: 389
+  environmentVariables:
+
+  vpcId: ''
+  subnetId: ''
+  enterpriseProjectId: default
+  agency: ''
+  xrole: ''
+  concurrency:
+    strategy: dynamic
+    maxConcurrent: 100
+  triggers:
+    - triggerType: APIG
+      eventData:
+        auth: IAM
+        name: openldap-apig
+        protocol: HTTP
+        timeout: 5000

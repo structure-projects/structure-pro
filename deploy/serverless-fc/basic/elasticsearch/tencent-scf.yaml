@@ -1,0 +1,48 @@
+appId: {appId}
+component: scf
+name: elasticsearch
+stage: prod
+org: {org}
+app: elasticsearch-app
+inputs:
+  name: elasticsearch
+  src:
+    src: ./
+    exclude:
+      - .env
+  region: ap-guangzhou
+  runtime: CustomContainer
+  description: Elasticsearch Search Engine
+  namespace: default
+  type: web
+  memorySize: 4096
+  timeout: 600
+  initTimeout: 300
+  cls:
+    logsetId: ''
+    topicId: ''
+  layers: []
+  environment:
+    variables:
+      discovery.type: single-node
+
+  containerConf:
+    image: elasticsearch:8.12.0
+    containerPort: 9200
+    imageTag: latest
+  vpcConfig:
+    vpcId: ''
+    subnetId: ''
+  triggers:
+    - type: apigw
+      parameters:
+        name: elasticsearch-apigw
+        protocols:
+          - http
+          - https
+        serviceName: serverless
+        description: API Gateway trigger for elasticsearch
+        environment: release
+        endPoints:
+          - path: /
+            method: ANY

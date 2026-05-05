@@ -1,0 +1,32 @@
+name: mysql5
+description: MySQL 5.7 Database
+region: cn-north-4
+project: {project}
+function:
+  name: mysql5
+  description: MySQL 5.7 Database
+  runtime: CustomImage
+  handler: ''
+  memorySize: 2048
+  timeout: 300
+  codeType: CustomImage
+  customImage:
+    image: mysql:5.7
+    port: 3306
+  environmentVariables:
+
+  vpcId: ''
+  subnetId: ''
+  enterpriseProjectId: default
+  agency: ''
+  xrole: ''
+  concurrency:
+    strategy: dynamic
+    maxConcurrent: 100
+  triggers:
+    - triggerType: APIG
+      eventData:
+        auth: IAM
+        name: mysql5-apig
+        protocol: HTTP
+        timeout: 5000
