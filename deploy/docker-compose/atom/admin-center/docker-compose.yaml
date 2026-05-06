@@ -4,7 +4,7 @@ services:
     image: registry.cn-hangzhou.aliyuncs.com/structured/structured-admin-center:latest
     restart: always
     pull_policy: always
-    hostname: content-center #服务内不使用host进行通信一定要配置
+    hostname: admin-center #服务内不使用host进行通信一定要配置
     env_file:
       - ../.env
     deploy: # 这个是编排配置默认节点配置为1 通常这个在配置在docker swarm 环境下使用

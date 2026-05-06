@@ -10,9 +10,9 @@ services:
                 limits:
                     cpus: 2
                     memory: 2G
-                placement:
-                    constraints:
-                        - node.role == master
+            placement:
+                constraints:
+                    - node.role == master
         networks:
             - structure-cloud-work
         volumes:
@@ -26,8 +26,6 @@ services:
             - "LS_JAVA_OPTS=-Xms512m -Xmx512m"
             - "XPACK_MONITORING_ENABLED=true"
         restart: always
-        depends_on:
-            - elasticsearch
 
     kibana:
         container_name: structure-kibana
@@ -37,9 +35,9 @@ services:
                 limits:
                     cpus: 1
                     memory: 1G
-                placement:
-                    constraints:
-                        - node.role == worker
+            placement:
+                constraints:
+                    - node.role == worker
         networks:
             - structure-cloud-work
         ports:
@@ -51,5 +49,4 @@ services:
             - SERVER_NAME=kibana.local
             - XPACK_SECURITY_ENABLED=false
         restart: always
-        depends_on:
-            - elasticsearch
+

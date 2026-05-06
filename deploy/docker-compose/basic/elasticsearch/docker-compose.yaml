@@ -3,6 +3,7 @@ services:
   elasticsearch:
     image: elasticsearch:8.16.0
     container_name: elasticsearch
+    hostname: elasticsearch
     networks:
       - structure-cloud-work
     deploy:
@@ -22,7 +23,7 @@ services:
       - node.name=es
       - cluster.name=elasticsearch
       - discovery.type=single-node
-      - ELASTIC_PASSWORD=123456
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
       - xpack.security.enabled=false
       - ES_JAVA_OPTS=-Xlog:disable -Xlog:gc=debug:stderr -Xms512m -Xmx512m
     privileged: true

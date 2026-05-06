@@ -5,6 +5,7 @@ services:
     oap:
         container_name: structure-skywalking-oap
         image: apache/skywalking-oap-server:9.5.0
+        hostname: structure-skywalking-oap
         deploy:
             resources:
                 limits:
@@ -47,9 +48,9 @@ services:
         networks:
             - structure-cloud-work
         environment:
-            - SW_OAP_ADDRESS=oap:12800
+            - SW_OAP_ADDRESS=structure-skywalking-oap:12800
         ports:
-            - 8080:8080
+            - 28080:8080
         restart: always
         depends_on:
             - oap
