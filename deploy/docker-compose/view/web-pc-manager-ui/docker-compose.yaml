@@ -19,5 +19,4 @@ services:
       - "17000:80"
 networks:
   structure-cloud-work:
-    driver: overlay
     external: true

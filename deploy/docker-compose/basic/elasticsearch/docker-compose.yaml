@@ -14,9 +14,9 @@ services:
         constraints:
           - node.role == master
     volumes:
-      - "./data/data:/usr/share/elasticsearch/data"
-      - "./data/backup:/usr/share/elasticsearch/backup"
-      - "./data/conf/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml"
+      - "${PWD}/data/data:/usr/share/elasticsearch/data"
+      - "${PWD}/data/backup:/usr/share/elasticsearch/backup"
+      - "${PWD}/data/conf/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml"
     ports:
       - "9200:9200"
     environment:
@@ -36,5 +36,4 @@ services:
         hard: 65536
 networks:
   structure-cloud-work:
-    driver: overlay
     external: true

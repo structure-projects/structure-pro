@@ -29,5 +29,4 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
 networks:
   structure-cloud-work:
-    driver: overlay
     external: true

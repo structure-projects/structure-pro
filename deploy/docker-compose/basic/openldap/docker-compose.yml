@@ -22,5 +22,5 @@ services:
             - ${HOST_IP}:${LDAP_PORT}:1389
         restart: always
         volumes:
-            - ./data:/bitnami/openldap
+            - ${PWD}/data:/bitnami/openldap
 version: "3"

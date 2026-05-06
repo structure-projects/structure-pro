@@ -27,5 +27,5 @@ services:
             - ${HOST_IP}:${PANEL_APP_PORT_HTTP}:8086
         restart: always
         volumes:
-            - ./data/data:/var/lib/influxdb2
-            - ./data/config:/etc/influxdb2
+            - ${PWD}/data/data:/var/lib/influxdb2
+            - ${PWD}/data/config:/etc/influxdb2

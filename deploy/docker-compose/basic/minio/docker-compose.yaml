@@ -13,10 +13,9 @@ services:
           - node.role == master
     networks:
       - structure-cloud-work
-    volumes:                     # 数据卷挂载路径设置,将本机目录映射到容器目录
-      - "./data:/data"
-      - "./minio:/minio"
-#      - "./config:/root/.minio"
+    volumes:
+      - "${PWD}/data:/data"
+      - "${PWD}/minio:/minio"
     environment:                                      # 设置环境变量,相当于docker run命令中的-e
       TZ: Asia/Shanghai
       LANG: en_US.UTF-8
@@ -35,5 +34,4 @@ services:
       - ${CONSOLE_PORT}:${CONSOLE_PORT}
 networks:
   structure-cloud-work:
-    driver: overlay
     external: true

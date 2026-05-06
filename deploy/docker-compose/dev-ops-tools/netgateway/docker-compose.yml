@@ -10,7 +10,7 @@ services:
       - SYS_MODULE
       - NET_RAW
     volumes:
-      - ./data/tailscale:/var/lib/tailscale
+      - ${PWD}/data/tailscale:/var/lib/tailscale
       - /dev/net/tun:/dev/net/tun
     environment:
       TS_AUTHKEY: ${TS_AUTHKEY}

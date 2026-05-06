@@ -1,2 +1,4 @@
 #!/bin/bash
-mkdir data log
+
+mkdir -p ${PWD}/data
+mkdir -p ${PWD}/log

@@ -1,6 +1,8 @@
 #!/bin/bash
 
-DIR="./data/"
+mkdir -p ${PWD}/data
+
+DIR="${PWD}/data/"
 
 if [ -d "$DIR" ]; then
   echo "目录 $DIR 已存在"

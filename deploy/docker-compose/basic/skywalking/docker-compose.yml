@@ -23,7 +23,7 @@ services:
             - SW_ES_PASSWORD=123456
             - JAVA_OPTS=-Xms2g -Xmx2g
         volumes:
-            - ./data:/data
+            - ${PWD}/data:/data
         ports:
             - 11800:11800  # gRPC receiver
             - 12800:12800  # REST API

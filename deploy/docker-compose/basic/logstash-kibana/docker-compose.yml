@@ -16,9 +16,9 @@ services:
         networks:
             - structure-cloud-work
         volumes:
-            - ./pipeline:/usr/share/logstash/pipeline
-            - ./config/logstash.yml:/usr/share/logstash/config/logstash.yml
-            - ./logs:/var/log/app
+            - ${PWD}/pipeline:/usr/share/logstash/pipeline
+            - ${PWD}/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+            - ${PWD}/logs:/var/log/app
         ports:
             - "5044:5044"
             - "9600:9600"

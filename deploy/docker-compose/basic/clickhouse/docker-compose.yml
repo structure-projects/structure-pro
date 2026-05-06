@@ -22,5 +22,5 @@ services:
                 hard: 262144
                 soft: 262144
         volumes:
-            - ./clickhouse:/var/lib/clickhouse/
-            - ./clickhouse-server:/var/log/clickhouse-server/
+            - ${PWD}/clickhouse:/var/lib/clickhouse/
+            - ${PWD}/clickhouse-server:/var/log/clickhouse-server/

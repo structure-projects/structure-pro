@@ -23,5 +23,5 @@ services:
             - ${HOST_IP}:${PANEL_APP_PORT_HTTP}:3306
         restart: always
         volumes:
-            - ./db/data:/var/lib/mysql
-            - ./conf/my.cnf:/etc/mysql/my.cnf
+            - ${PWD}/db/data:/var/lib/mysql
+            - ${PWD}/conf/my.cnf:/etc/mysql/my.cnf

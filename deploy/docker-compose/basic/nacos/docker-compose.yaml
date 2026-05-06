@@ -10,17 +10,20 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.role == master
+          - node.role == worker
+          - node.hostname == k8s-node1
     networks:
       - structure-cloud-work
+    env_file:
+      - .env
     environment:
       - PREFER_HOST_MODE=ip
       - MODE=standalone
       - SPRING_DATASOURCE_PLATFORM=mysql
       - NACOS_AUTH_ENABLE=true
       - NACOS_AUTH_IDENTITY_KEY=structure-cloud-nacos
-      - NACOS_AUTH_IDENTITY_VALUE=NACOS123456!@#$%^1QAZ
-      - NACOS_AUTH_TOKEN=6A714736646D4A4677397338784F423F4528482B4D6251655468576D5A713474
+      - NACOS_AUTH_IDENTITY_VALUE=${NACOS_AUTH_IDENTITY_VALUE}
+      - NACOS_AUTH_TOKEN=${NACOS_AUTH_TOKEN}
       - JVM_XMS=1g
       - JVM_XMX=1g
       - JVM_XMN=512m
@@ -33,8 +36,8 @@ services:
       - MYSQL_SERVICE_PASSWORD=123456
       - MYSQL_SERVICE_DB_PARAM=characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
     volumes:
-      - ./logs:/home/nacos/logs
-      - ./data:/home/nacos/data
+      - ${PWD}/logs:/home/nacos/logs
+      - ${PWD}/data:/home/nacos/data
     ports:
       - 8848:8848
       - 9848:9848
