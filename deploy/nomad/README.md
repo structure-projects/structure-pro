@@ -10,7 +10,9 @@
 deploy/nomad/
 ├── config/
 │   ├── nomad-server.hcl              # Nomad Server 配置
-│   └── nomad-client.hcl              # Nomad Client 配置
+│   ├── nomad-client.hcl              # Nomad Client 配置
+│   ├── consul-server.hcl             # Consul Server 配置
+│   └── consul-client.hcl             # Consul Client 配置
 ├── jobs/
 │   ├── basic/                        # 基础服务
 │   │   ├── mysql.nomad
@@ -253,7 +255,19 @@ nomad agent-info
 
 ## 与 Consul 集成
 
-Nomad 天然支持与 Consul 集成，实现服务发现：
+### 集成优势
+
+Nomad 天然支持与 Consul 集成，实现以下功能：
+
+1. **服务发现**：服务自动注册到 Consul
+2. **健康检查**：Consul 自动检查服务健康状态
+3. **DNS 查询**：通过 Consul DNS 进行服务发现
+4. **负载均衡**：Consul 提供简单的负载均衡
+5. **KV 存储**：使用 Consul KV 存储配置
+
+### 配置说明
+
+在 Nomad 配置文件中已包含 Consul 集成配置：
 
 ```hcl
 consul {
@@ -261,7 +275,55 @@ consul {
 }
 ```
 
-服务会自动注册到 Consul，可通过 Consul UI 查看。
+### 使用方式
+
+#### 1. 服务自动注册
+
+所有 Nomad job 中的 `service` 块会自动注册到 Consul：
+
+```hcl
+service {
+  name = "mysql"
+  tags = ["mysql", "database"]
+  port = "mysql"
+  check {
+    name     = "tcp"
+    type     = "tcp"
+    interval = "10s"
+    timeout  = "2s"
+  }
+}
+```
+
+#### 2. 通过 Consul DNS 发现服务
+
+```bash
+# 查询服务
+dig @127.0.0.1 -p 8600 mysql.service.consul SRV
+
+# 在应用中使用服务名连接
+mysql.service.consul:3306
+```
+
+#### 3. 访问 Consul UI
+
+打开浏览器访问：`http://<server-ip>:8500`
+
+在 UI 中可以：
+- 查看所有注册的服务
+- 检查服务健康状态
+- 查看节点信息
+- 管理 KV 存储
+
+### 手动部署 Consul（可选）
+
+如果不想直接在主机上运行 Consul，可以通过 Nomad 部署：
+
+```bash
+nomad job run jobs/basic/consul.nomad
+```
+
+注意：不推荐在生产环境中用 Nomad 运行 Consul server，建议直接在主机上部署 Consul 以保证高可用性。
 
 ## 高可用部署
 

@@ -7,7 +7,7 @@ job "it-tools" {
 
     network {
       port "http" {
-        static = "${PANEL_APP_PORT_HTTP}"
+        static = "19001"
         to     = 80
       }
     }
@@ -33,12 +33,13 @@ job "it-tools" {
       }
 
       env {
-        "CREATED_BY" = "Nomad"
+        CREATED_BY = "Nomad"
       }
 
       resources {
-        cpu    = 500
-        memory = 256
+        cpu    = 200
+        memory = 128
+        disk   = 512
       }
 
       logs {
