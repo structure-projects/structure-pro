@@ -6,10 +6,6 @@ services:
     restart: always
     privileged: true
     deploy:
-      resources:
-        limits:
-          cpus: 0
-          memory: 0
       placement:
         constraints:
           - node.role == worker

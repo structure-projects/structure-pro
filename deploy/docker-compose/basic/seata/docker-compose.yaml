@@ -4,10 +4,6 @@ services:
     restart: always
     image: seataio/seata-server:1.5.2
     deploy:
-      resources:
-        limits:
-          cpus: 0
-          memory: 0
       placement:
         constraints:
           - node.role == worker

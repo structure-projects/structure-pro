@@ -50,10 +50,6 @@ services:
         command: sh mqnamesrv
         container_name: ${CONTAINER_NAME}-rmqnamesrv
         deploy:
-            resources:
-                limits:
-                    cpus: ${CPUS}
-                    memory: ${MEMORY_LIMIT}
             placement:
               constraints:
                 - node.role == worker
@@ -82,10 +78,6 @@ services:
         networks:
             - structure-cloud-work
         deploy:
-          resources:
-            limits:
-              cpus: ${CPUS}
-              memory: ${MEMORY_LIMIT}
           placement:
             constraints:
               - node.role == worker

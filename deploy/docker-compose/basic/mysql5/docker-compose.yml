@@ -6,10 +6,6 @@ services:
         command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --explicit_defaults_for_timestamp=true --lower_case_table_names=1
         container_name: "structure-mysql"
         deploy:
-            resources:
-                limits:
-                    cpus: 0
-                    memory: 0
             placement:
               constraints:
                 - node.role == manager
@@ -24,8 +20,9 @@ services:
             - "3306:3306"
         restart: always
         volumes:
-            - ${PWD}/data/:/var/lib/mysql
-            - ${PWD}/conf/my.cnf:/etc/mysql/my.cnf
-            - ${PWD}/log:/var/log/mysql
+            - ${PWD}/data:/var/lib/mysql
+            - ${PWD}/logs:/var/log/mysql/
+            - ${PWD}/init.d:/docker-entrypoint-initdb.d/:ro
+            - ${PWD}/config:/etc/mysql/conf.d/:rw
             - /etc/timezone:/etc/timezone:ro
             - /etc/localtime:/etc/localtime:ro

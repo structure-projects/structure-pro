@@ -4,11 +4,7 @@ networks:
 services:
     openldap:
         container_name: ${CONTAINER_NAME}
-        deploy:
-            resources:
-                limits:
-                    cpus: ${CPUS}
-                    memory: ${MEMORY_LIMIT}
+
         environment:
             LDAP_ADMIN_PASSWORD: ${LDAP_ADMIN_PASSWORD}
             LDAP_ADMIN_USERNAME: ${LDAP_ADMIN_USERNAME}

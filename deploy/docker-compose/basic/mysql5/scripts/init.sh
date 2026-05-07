@@ -5,8 +5,9 @@ PARENT_DIR="$(dirname "$SCRIPT_DIR")"
 COMMON_SCRIPT="${PWD}/../../scripts/gen_service_yaml.sh"
 
 mkdir -p ${PWD}/data
-mkdir -p ${PWD}/conf
-mkdir -p ${PWD}/log
+mkdir -p ${PWD}/logs
+mkdir -p ${PWD}/init.d
+mkdir -p ${PWD}/config
 
 if [ -f "${COMMON_SCRIPT}" ]; then
     source "${COMMON_SCRIPT}"

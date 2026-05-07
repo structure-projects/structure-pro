@@ -11,10 +11,6 @@ services:
             - --storage.tsdb.retention=200h
         container_name: ${CONTAINER_NAME}
         deploy:
-            resources:
-                limits:
-                    cpus: ${CPUS}
-                    memory: ${MEMORY_LIMIT}
             placement:
                 constraints:
                     - node.role == master
