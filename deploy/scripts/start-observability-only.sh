@@ -29,6 +29,22 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     exit 1
 fi
 
+# 检查 Docker 和 Docker Compose 是否安装
+if ! command -v docker &> /dev/null; then
+    echo "❌ Docker 未安装，请先安装 Docker"
+    exit 1
+fi
+
+if ! command -v docker-compose &> /dev/null; then
+    if ! command -v docker compose &> /dev/null; then
+        echo "❌ Docker Compose 未安装，请先安装 Docker Compose"
+        exit 1
+    fi
+    DOCKER_COMPOSE_CMD="docker compose"
+else
+    DOCKER_COMPOSE_CMD="docker-compose"
+fi
+
 # 创建网络
 echo "📦 创建网络..."
 docker network create structure-cloud-work --driver overlay 2>/dev/null || true
@@ -37,22 +53,37 @@ cd "$DOCKER_COMPOSE_DIR"
 
 echo ""
 echo "🚀 启动可观测性服务..."
-cd basic
 
 # 1. 基础存储
 echo "  [1/4] 启动 Prometheus..."
-$DOCKER_COMPOSE_CMD -f prometheus/docker-compose.yml up -d --wait
+cd basic/prometheus
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
 
 echo "  [2/4] 启动 Elasticsearch..."
-$DOCKER_COMPOSE_CMD -f elasticsearch/docker-compose.yml up -d --wait
+cd basic/elasticsearch
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
 
 # 2. 可观测性完整组件
 echo "  [3/4] 启动 SkyWalking..."
-$DOCKER_COMPOSE_CMD -f skywalking/docker-compose.yml up -d --wait
+cd basic/skywalking
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
 
 echo "  [4/4] 启动完整日志和监控系统..."
-$DOCKER_COMPOSE_CMD -f alertmanager-grafana/docker-compose.yml up -d --wait
-$DOCKER_COMPOSE_CMD -f logstash-kibana/docker-compose.yml up -d --wait
+cd basic/alertmanager-grafana
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
+
+cd basic/logstash-kibana
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
 
 cd "$DOCKER_COMPOSE_DIR"
 

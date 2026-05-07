@@ -27,43 +27,79 @@ create_overlay_network() {
 
 deploy_basic_services() {
     echo "==> 开始部署基础服务..."
-    cd "${COMPOSE_DIR}/basic"
+    cd "${COMPOSE_DIR}"
 
-    echo "==> [1/10] 部署存储服务 - Prometheus..."
-    docker stack deploy -c prometheus/docker-compose.yml prometheus 2>/dev/null || docker-compose -f prometheus/docker-compose.yml up -d
+    echo "==> [1/12] 部署 Prometheus..."
+    cd basic/prometheus
+    sh ./scripts/init.sh
+    docker stack deploy -c service.yaml prometheus
+    cd ../..
 
-    echo "==> [2/10] 部署存储服务 - Elasticsearch..."
-    docker stack deploy -c elasticsearch/docker-compose.yml elasticsearch 2>/dev/null || docker-compose -f elasticsearch/docker-compose.yml up -d
+    echo "==> [2/12] 部署 Elasticsearch..."
+    cd basic/elasticsearch
+    sh ./scripts/init.sh
+    docker stack deploy -c service.yaml elasticsearch
+    cd ../..
 
-    echo "==> [3/10] 部署存储服务 - Redis..."
-    docker stack deploy -c redis/docker-compose.yaml redis 2>/dev/null || docker-compose -f redis/docker-compose.yaml up -d
+    echo "==> [3/12] 部署 Redis..."
+    cd basic/redis
+    sh ./scripts/init.sh
+    docker stack deploy -c service.yaml redis
+    cd ../..
 
-    echo "==> [4/10] 部署存储服务 - MySQL..."
-    docker stack deploy -c mysql/docker-compose.yaml mysql 2>/dev/null || docker-compose -f mysql/docker-compose.yaml up -d
+    echo "==> [4/12] 部署 MySQL..."
+    cd basic/mysql
+    sh ./scripts/init.sh
+    docker stack deploy -c service.yaml mysql
+    cd ../..
 
-    echo "==> [5/10] 部署消息队列 - Kafka..."
-    docker stack deploy -c kafka/docker-compose.yml kafka 2>/dev/null || docker-compose -f kafka/docker-compose.yml up -d
+    echo "==> [5/12] 部署 Kafka..."
+    cd basic/kafka
+    sh ./scripts/init.sh
+    docker stack deploy -c service.yaml kafka
+    cd ../..
 
-    echo "==> [6/10] 部署消息队列 - RabbitMQ..."
-    docker stack deploy -c rabbitmq/docker-compose.yml rabbitmq 2>/dev/null || docker-compose -f rabbitmq/docker-compose.yml up -d
+    echo "==> [6/12] 部署 RabbitMQ..."
+    cd basic/rabbitmq
+    sh ./scripts/init.sh
+    docker stack deploy -c service.yaml rabbitmq
+    cd ../..
 
-    echo "==> [7/10] 部署注册与配置中心 - Nacos..."
-    docker stack deploy -c nacos/docker-compose.yaml nacos 2>/dev/null || docker-compose -f nacos/docker-compose.yaml up -d
+    echo "==> [7/12] 部署 Nacos..."
+    cd basic/nacos
+    sh ./scripts/init.sh
+    docker stack deploy -c service.yaml nacos
+    cd ../..
 
-    echo "==> [8/10] 部署可观测性服务 - SkyWalking..."
-    docker stack deploy -c skywalking/docker-compose.yml skywalking 2>/dev/null || docker-compose -f skywalking/docker-compose.yml up -d
+    echo "==> [8/12] 部署 SkyWalking..."
+    cd basic/skywalking
+    sh ./scripts/init.sh
+    docker stack deploy -c service.yaml skywalking
+    cd ../..
 
-    echo "==> [9/10] 部署可观测性服务 - AlertManager & Grafana..."
-    docker stack deploy -c alertmanager-grafana/docker-compose.yml alertmanager-grafana 2>/dev/null || docker-compose -f alertmanager-grafana/docker-compose.yml up -d
+    echo "==> [9/12] 部署 AlertManager & Grafana..."
+    cd basic/alertmanager-grafana
+    sh ./scripts/init.sh
+    docker stack deploy -c service.yaml alertmanager-grafana
+    cd ../..
 
-    echo "==> [10/10] 部署可观测性服务 - Logstash & Kibana..."
-    docker stack deploy -c logstash-kibana/docker-compose.yml logstash-kibana 2>/dev/null || docker-compose -f logstash-kibana/docker-compose.yml up -d
+    echo "==> [10/12] 部署 Logstash & Kibana..."
+    cd basic/logstash-kibana
+    sh ./scripts/init.sh
+    docker stack deploy -c service.yaml logstash-kibana
+    cd ../..
 
-    echo "==> [附加] 部署限流熔断控制台 - Sentinel Dashboard..."
-    docker stack deploy -c sentinel-dashboard/docker-compose.yml sentinel 2>/dev/null || docker-compose -f sentinel-dashboard/docker-compose.yml up -d
+    echo "==> [11/12] 部署 Sentinel Dashboard..."
+    cd basic/sentinel-dashboard
+    sh ./scripts/init.sh
+    docker stack deploy -c service.yaml sentinel
+    cd ../..
 
-    echo "==> [附加] 部署 API 网关 - Kong Gateway..."
-    docker stack deploy -c kong-gateway/docker-compose.yaml kong-gateway 2>/dev/null || docker-compose -f kong-gateway/docker-compose.yaml up -d
+    echo "==> [12/12] 部署 Kong Gateway..."
+    cd basic/kong-gateway
+    sh ./scripts/init.sh
+    docker stack deploy -c service.yaml kong-gateway
+    cd ../..
 
     cd - > /dev/null
     echo "==> 基础服务部署完成"
@@ -71,22 +107,37 @@ deploy_basic_services() {
 
 deploy_atom_services() {
     echo "==> 开始部署原子服务..."
-    cd "${COMPOSE_DIR}/atom"
+    cd "${COMPOSE_DIR}"
 
     echo "==> [1/5] 部署用户中心 - User Center..."
-    docker stack deploy -c user-center/docker-compose.yaml user-center 2>/dev/null || docker-compose -f user-center/docker-compose.yaml up -d
+    cd atom/user-center
+    sh ./scripts/init.sh
+    docker stack deploy -c service.yaml user-center
+    cd ../..
 
     echo "==> [2/5] 部署认证中心 - OAuth Center..."
-    docker stack deploy -c oauth-center/docker-compose.yaml oauth-center 2>/dev/null || docker-compose -f oauth-center/docker-compose.yaml up -d
+    cd atom/oauth-center
+    sh ./scripts/init.sh
+    docker stack deploy -c service.yaml oauth-center
+    cd ../..
 
     echo "==> [3/5] 部署内容中心 - Content Center..."
-    docker stack deploy -c content-center/docker-compose.yaml content-center 2>/dev/null || docker-compose -f content-center/docker-compose.yaml up -d
+    cd atom/content-center
+    sh ./scripts/init.sh
+    docker stack deploy -c service.yaml content-center
+    cd ../..
 
     echo "==> [4/5] 部署任务中心 - Job Center..."
-    docker stack deploy -c job-center/docker-compose.yaml job-center 2>/dev/null || docker-compose -f job-center/docker-compose.yaml up -d
+    cd atom/job-center
+    sh ./scripts/init.sh
+    docker stack deploy -c service.yaml job-center
+    cd ../..
 
     echo "==> [5/5] 部署管理后台 - Admin Center..."
-    docker stack deploy -c admin-center/docker-compose.yaml admin-center 2>/dev/null || docker-compose -f admin-center/docker-compose.yaml up -d
+    cd atom/admin-center
+    sh ./scripts/init.sh
+    docker stack deploy -c service.yaml admin-center
+    cd ../..
 
     cd - > /dev/null
     echo "==> 原子服务部署完成"
@@ -94,13 +145,19 @@ deploy_atom_services() {
 
 deploy_app_services() {
     echo "==> 开始部署应用系统..."
-    cd "${COMPOSE_DIR}/apps"
+    cd "${COMPOSE_DIR}"
 
     echo "==> [1/2] 部署内容管理系统 - Content Manager System..."
-    docker stack deploy -c content-manager-system/docker-compose.yaml content-manager-system 2>/dev/null || docker-compose -f content-manager-system/docker-compose.yaml up -d
+    cd apps/content-manager-system
+    sh ./scripts/init.sh
+    docker stack deploy -c service.yaml content-manager-system
+    cd ../..
 
     echo "==> [2/2] 部署管理系统 - Manager System..."
-    docker stack deploy -c manager-system/docker-compose.yaml manager-system 2>/dev/null || docker-compose -f manager-system/docker-compose.yaml up -d
+    cd apps/manager-system
+    sh ./scripts/init.sh
+    docker stack deploy -c service.yaml manager-system
+    cd ../..
 
     cd - > /dev/null
     echo "==> 应用系统部署完成"

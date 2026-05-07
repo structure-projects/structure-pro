@@ -28,17 +28,23 @@ else
     DOCKER_COMPOSE_CMD="docker-compose"
 fi
 
-cd "$DOCKER_COMPOSE_DIR/apps"
+cd "$DOCKER_COMPOSE_DIR"
 
 echo "🚀 启动应用系统..."
 
 # 1. 内容管理系统
 echo "  [1/2] 启动 Content Manager System..."
-$DOCKER_COMPOSE_CMD -f content-manager-system/docker-compose.yaml up -d --wait || true
+cd apps/content-manager-system
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait || true
+cd ../..
 
 # 2. 管理系统
 echo "  [2/2] 启动 Manager System..."
-$DOCKER_COMPOSE_CMD -f manager-system/docker-compose.yaml up -d --wait || true
+cd apps/manager-system
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait || true
+cd ../..
 
 cd "$DOCKER_COMPOSE_DIR"
 

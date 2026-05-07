@@ -28,29 +28,44 @@ else
     DOCKER_COMPOSE_CMD="docker-compose"
 fi
 
-cd "$DOCKER_COMPOSE_DIR/atom"
+cd "$DOCKER_COMPOSE_DIR"
 
 echo "🚀 启动原子服务..."
 
 # 1. 用户中心
 echo "  [1/5] 启动 User Center..."
-$DOCKER_COMPOSE_CMD -f user-center/docker-compose.yaml up -d --wait || true
+cd atom/user-center
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait || true
+cd ../..
 
 # 2. 认证授权中心
 echo "  [2/5] 启动 OAuth Center..."
-$DOCKER_COMPOSE_CMD -f oauth-center/docker-compose.yaml up -d --wait || true
+cd atom/oauth-center
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait || true
+cd ../..
 
 # 3. 内容中心
 echo "  [3/5] 启动 Content Center..."
-$DOCKER_COMPOSE_CMD -f content-center/docker-compose.yaml up -d --wait || true
+cd atom/content-center
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait || true
+cd ../..
 
 # 4. 任务调度中心
 echo "  [4/5] 启动 Job Center..."
-$DOCKER_COMPOSE_CMD -f job-center/docker-compose.yaml up -d --wait || true
+cd atom/job-center
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait || true
+cd ../..
 
 # 5. 管理中心
 echo "  [5/5] 启动 Admin Center..."
-$DOCKER_COMPOSE_CMD -f admin-center/docker-compose.yaml up -d --wait || true
+cd atom/admin-center
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait || true
+cd ../..
 
 cd "$DOCKER_COMPOSE_DIR"
 

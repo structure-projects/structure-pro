@@ -36,44 +36,83 @@ cd "$DOCKER_COMPOSE_DIR"
 
 echo ""
 echo "🚀 启动基础服务..."
-cd basic
 
 # 1. 存储服务
-echo "  [1/8] 启动 Prometheus..."
-$DOCKER_COMPOSE_CMD -f prometheus/docker-compose.yml up -d --wait
+echo "  [1/12] 启动 Prometheus..."
+cd basic/prometheus
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
 
-echo "  [2/8] 启动 Elasticsearch..."
-$DOCKER_COMPOSE_CMD -f elasticsearch/docker-compose.yml up -d --wait
+echo "  [2/12] 启动 Elasticsearch..."
+cd basic/elasticsearch
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
 
-echo "  [3/8] 启动 Redis..."
-$DOCKER_COMPOSE_CMD -f redis/docker-compose.yml up -d --wait
+echo "  [3/12] 启动 Redis..."
+cd basic/redis
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
 
-echo "  [4/8] 启动 MySQL..."
-$DOCKER_COMPOSE_CMD -f mysql/docker-compose.yml up -d --wait
+echo "  [4/12] 启动 MySQL..."
+cd basic/mysql
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
 
 # 2. 消息队列
-echo "  [5/8] 启动 Kafka..."
-$DOCKER_COMPOSE_CMD -f kafka/docker-compose.yml up -d --wait
+echo "  [5/12] 启动 Kafka..."
+cd basic/kafka
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
 
-echo "  [6/8] 启动 RabbitMQ..."
-$DOCKER_COMPOSE_CMD -f rabbitmq/docker-compose.yml up -d --wait
+echo "  [6/12] 启动 RabbitMQ..."
+cd basic/rabbitmq
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
 
 # 3. 注册与配置中心
-echo "  [7/8] 启动 Nacos..."
-$DOCKER_COMPOSE_CMD -f nacos/docker-compose.yml up -d --wait
+echo "  [7/12] 启动 Nacos..."
+cd basic/nacos
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
 
 # 4. 可观测性服务
-echo "  [8/8] 启动可观测性服务..."
-$DOCKER_COMPOSE_CMD -f skywalking/docker-compose.yml up -d --wait
-$DOCKER_COMPOSE_CMD -f alertmanager-grafana/docker-compose.yml up -d --wait
-$DOCKER_COMPOSE_CMD -f logstash-kibana/docker-compose.yml up -d --wait
+echo "  [8/12] 启动 SkyWalking..."
+cd basic/skywalking
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
+
+echo "  [9/12] 启动 AlertManager & Grafana..."
+cd basic/alertmanager-grafana
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
+
+echo "  [10/12] 启动 Logstash & Kibana..."
+cd basic/logstash-kibana
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
 
 # 5. 限流熔断与网关
-echo "  启动 Sentinel Dashboard..."
-$DOCKER_COMPOSE_CMD -f sentinel-dashboard/docker-compose.yml up -d --wait
+echo "  [11/12] 启动 Sentinel Dashboard..."
+cd basic/sentinel-dashboard
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
 
-echo "  启动 Kong Gateway..."
-$DOCKER_COMPOSE_CMD -f kong-gateway/docker-compose.yml up -d --wait
+echo "  [12/12] 启动 Kong Gateway..."
+cd basic/kong-gateway
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
 
 cd "$DOCKER_COMPOSE_DIR"
 

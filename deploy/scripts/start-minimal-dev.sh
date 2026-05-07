@@ -37,29 +37,46 @@ cd "$DOCKER_COMPOSE_DIR"
 
 echo ""
 echo "🚀 启动核心基础服务..."
-cd basic
 
 # 1. 存储服务
 echo "  [1/6] 启动 Prometheus..."
-$DOCKER_COMPOSE_CMD -f prometheus/docker-compose.yml up -d --wait
+cd basic/prometheus
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
 
 echo "  [2/6] 启动 MySQL..."
-$DOCKER_COMPOSE_CMD -f mysql/docker-compose.yml up -d --wait
+cd basic/mysql
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
 
 echo "  [3/6] 启动 Redis..."
-$DOCKER_COMPOSE_CMD -f redis/docker-compose.yml up -d --wait
+cd basic/redis
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
 
 # 2. 消息队列
 echo "  [4/6] 启动 RabbitMQ..."
-$DOCKER_COMPOSE_CMD -f rabbitmq/docker-compose.yml up -d --wait
+cd basic/rabbitmq
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
 
 # 3. 注册与配置中心
 echo "  [5/6] 启动 Nacos..."
-$DOCKER_COMPOSE_CMD -f nacos/docker-compose.yml up -d --wait
+cd basic/nacos
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
 
 # 4. 基础监控
 echo "  [6/6] 启动 Grafana..."
-$DOCKER_COMPOSE_CMD -f alertmanager-grafana/docker-compose.yml up -d --wait
+cd basic/alertmanager-grafana
+sh ./scripts/init.sh
+$DOCKER_COMPOSE_CMD up -d --wait
+cd ../..
 
 cd "$DOCKER_COMPOSE_DIR"
 
