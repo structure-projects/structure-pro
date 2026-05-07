@@ -40,18 +40,18 @@
 │                    接入层 (Ingress)                  │
 │           Kong Gateway / Istio Gateway              │
 └─────────────────────────────────────────────────────┘
-                         ↓
+                          ↓
 ┌─────────────────────────────────────────────────────┐
 │                    服务网格层                        │
 │              Istio / Service Mesh                   │
 └─────────────────────────────────────────────────────┘
-                         ↓
+                          ↓
 ┌─────────────────────────────────────────────────────┐
 │                    业务服务层                        │
 │  user-center  oauth-center  content-center  job-center │
 │            admin-center / 应用系统聚合层              │
 └─────────────────────────────────────────────────────┘
-                         ↓
+                          ↓
 ┌─────────────────────────────────────────────────────┐
 │                    基础设施层                        │
 │  Nacos  │  Kafka / RabbitMQ  │  Redis  │  MySQL   │
@@ -65,14 +65,17 @@
 |------|------|
 | **微服务框架** | Spring Cloud / Spring Boot |
 | **服务注册** | Nacos 2.2.3 |
-| **消息队列** | Kafka / RabbitMQ |
-| **缓存** | Redis |
-| **数据库** | MySQL / PostgreSQL / MongoDB |
+| **消息队列** | Kafka / RabbitMQ / RocketMQ / EMQX |
+| **缓存** | Redis / Memcached |
+| **数据库** | MySQL / PostgreSQL / MongoDB / MariaDB / SQL Server / Neo4j |
 | **搜索引擎** | Elasticsearch 8.16.0 |
+| **时序数据库** | InfluxDB / ClickHouse |
+| **对象存储** | MinIO |
+| **分布式事务** | Seata |
 | **监控** | Prometheus + Grafana |
 | **链路追踪** | SkyWalking 9.5.0 |
 | **日志** | ELK Stack (Elasticsearch + Logstash + Kibana) |
-| **容器编排** | Docker Swarm / Kubernetes / Helm |
+| **容器编排** | Docker Swarm / Kubernetes / Helm / Nomad |
 | **API网关** | Kong Gateway |
 | **限流熔断** | Sentinel 1.8.8 |
 
@@ -80,14 +83,24 @@
 
 ```
 structure-cloud-pro/
+├── structure-monitoring-center/    # 监控中心模块
 ├── deploy/
+│   ├── docker/                     # Docker 部署文档
+│   │   ├── docker-swarm.md         # Swarm 集群部署指南
+│   │   ├── on-line-docker.md       # 在线 Docker 安装
+│   │   └── off-line-docker.md      # 离线 Docker 安装
 │   ├── docker-compose/
-│   │   ├── basic/          # 基础服务 (nacos, redis, mysql, kafka...)
-│   │   ├── atom/           # 原子服务 (user, oauth, content, job, admin)
-│   │   └── apps/           # 应用系统 (content-manager, manager)
-│   ├── helm/               # Helm Charts
-│   └── scripts/            # 部署脚本
-└── structure-cloud-gateway/
+│   │   ├── basic/                  # 基础服务
+│   │   ├── atom/                   # 原子服务
+│   │   ├── apps/                   # 应用系统
+│   │   ├── view/                   # 前端应用
+│   │   └── dev-ops-tools/          # 开发运维工具
+│   ├── helm/                       # Helm Charts
+│   └── nomad/                      # Nomad 部署配置
+│       ├── jobs/                   # Nomad Job 定义
+│       ├── config/                 # Nomad 配置文件
+│       └── systemd/                # Nomad Systemd 服务
+└── pom.xml                         # Maven 父 POM
 ```
 
 ### 服务分类
@@ -96,7 +109,8 @@ structure-cloud-pro/
 |------|------|------|
 | **原子服务** | user-center, oauth-center, content-center, job-center, admin-center | 核心业务能力 |
 | **应用系统** | content-manager-system, manager-system | 业务聚合层 |
-| **基础设施** | Nacos, Redis, MySQL, Kafka, Elasticsearch... | 中间件支持 |
+| **基础设施** | Nacos, Redis, MySQL, Kafka, Elasticsearch 等 | 中间件支持 |
+| **开发运维工具** | it-tools, netclient, netgateway | 工具集 |
 
 ## 🚢 部署指南
 
@@ -116,6 +130,9 @@ docker-compose up -d
 
 # Docker Swarm 部署
 docker stack deploy -c service.yaml <service-name>
+
+# Nomad 部署
+nomad job run <job-file.nomad>
 ```
 
 ### Docker Compose 部署
@@ -148,6 +165,22 @@ sh ./scripts/init.sh && docker stack deploy -c service.yaml <stack-name>
 # 原子服务
 cd ../atom/<service>
 sh ./scripts/init.sh && docker stack deploy -c service.yaml <stack-name>
+```
+
+### Nomad 部署
+
+```bash
+# 部署基础服务
+cd deploy/nomad/jobs/basic
+nomad job run <service.nomad>
+
+# 部署原子服务
+cd ../atom
+nomad job run <service.nomad>
+
+# 部署应用系统
+cd ../apps
+nomad job run <service.nomad>
 ```
 
 ## 📦 脚本体系
@@ -186,6 +219,15 @@ docker service ps <name>             # 服务状态
 docker service logs <name>          # 查看日志
 docker service scale <name>=3      # 扩容
 docker stack rm <stack>             # 移除服务
+```
+
+### Nomad 管理命令
+
+```bash
+nomad job status                    # 查看作业状态
+nomad job stop <job-name>           # 停止作业
+nomad alloc status <alloc-id>      # 查看分配状态
+nomad alloc logs <alloc-id>        # 查看日志
 ```
 
 ## 🛠️ 常用运维
@@ -249,6 +291,9 @@ docker volume prune -f
 
 更多详细内容请参考：
 - [部署完整文档](README-full.md) - 包含完整的部署说明、技术架构、运维指南等
+- [Docker Swarm 集群部署](deploy/docker/docker-swarm.md) - Swarm 高可用集群部署指南
+- [在线 Docker 安装](deploy/docker/on-line-docker.md) - 在线环境 Docker 安装
+- [离线 Docker 安装](deploy/docker/off-line-docker.md) - 离线环境 Docker 安装
 
 ## 📄 许可证
 
