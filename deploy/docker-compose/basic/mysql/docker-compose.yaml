@@ -23,7 +23,7 @@ services:
       - ${PWD}/config:/etc/mysql/conf.d/:rw
     environment:
       - MYSQL_ROOT_HOST=%
-      - MYSQL_ROOT_PASSWORD=${ROOT_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=123456
       - TZ=Asia/Shanghai
     command:
       - "--server-id=1"
