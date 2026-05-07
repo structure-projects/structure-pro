@@ -13,7 +13,7 @@ ports {
 # ==========
 client {
   enabled = true
-  servers = ["172.16.48.1:4647"]
+  servers = ["172.16.48.1:4647","172.16.48.135:4647","172.16.48.136:4647"]
   node_class = "compute"
 
   network_interface = "eth0"
