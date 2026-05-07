@@ -22,5 +22,5 @@ services:
             - ${HOST_IP}:${PANEL_APP_PORT_BOLT}:7687
         restart: always
         volumes:
-            - ./data/data:/data
-            - ./data/logs:/logs
+            - ${PWD}/data/data:/data
+            - ${PWD}/data/logs:/logs

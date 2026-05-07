@@ -30,5 +30,4 @@ services:
       - "nacos-2.nacos:nacos"
 networks:
   structure-cloud-work:
-    driver: overlay
     external: true

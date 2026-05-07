@@ -1,0 +1,62 @@
+job "rabbitmq3" {
+  datacenters = ["dc1"]
+  type        = "service"
+
+  group "rabbitmq3" {
+    count = 1
+
+    network {
+      port "amqp" {
+        static = 5672
+        to     = 5672
+      }
+      port "mgmt" {
+        static = 15672
+        to     = 15672
+      }
+    }
+
+    restart {
+      attempts = 3
+      interval = "5m"
+      delay    = "25s"
+      mode     = "fail"
+    }
+
+    task "rabbitmq3" {
+      driver = "docker"
+
+      config {
+        image = "rabbitmq:3.12-management"
+        ports = ["amqp"]
+      }
+
+      env {
+        "CREATED_BY" = "Nomad"
+        "SERVICE_NAME" = "rabbitmq3"
+      }
+
+      resources {
+        cpu    = 1000
+        memory = 2048
+      }
+
+      logs {
+        max_files     = 5
+        max_file_size = 10
+      }
+
+      service {
+        name = "rabbitmq3"
+        tags = ["rabbitmq3", "docker-compose-converted"]
+        port = "amqp"
+        check {
+          name     = "tcp"
+          type     = "tcp"
+          interval = "10s"
+          timeout  = "2s"
+        }
+      }
+    }
+  }
+}

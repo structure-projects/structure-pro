@@ -30,5 +30,4 @@ services:
       - "8443:8443"
 networks:
   structure-cloud-work:
-    driver: overlay
     external: true

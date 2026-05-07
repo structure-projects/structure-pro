@@ -1,3 +1,4 @@
 #!/bin/bash
 
-mkdir clickhouse clickhouse-server
+mkdir -p ${PWD}/clickhouse
+mkdir -p ${PWD}/clickhouse-server

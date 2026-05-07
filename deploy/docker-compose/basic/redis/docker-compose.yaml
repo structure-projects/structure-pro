@@ -18,9 +18,9 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - ./data:/data
-      - ./conf/redis.conf:/etc/redis/redis.conf
-      - ./logs:/logs
+      - ${PWD}/data:/data
+      - ${PWD}/conf/redis.conf:/etc/redis/redis.conf
+      - ${PWD}/logs:/logs
     command:
       redis-server  /etc/redis/redis.conf --requirepass ${REDIS_PASSWORD}
 networks:

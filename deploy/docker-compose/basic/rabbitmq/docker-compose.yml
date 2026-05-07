@@ -26,5 +26,5 @@ services:
             - ${HOST_IP}:${PANEL_APP_PORT_HTTP}:15672
         restart: always
         volumes:
-            - ./data/:/var/lib/rabbitmq/
-            - ./log/:/var/log/rabbitmq
+            - ${PWD}/data/:/var/lib/rabbitmq/
+            - ${PWD}/log/:/var/log/rabbitmq

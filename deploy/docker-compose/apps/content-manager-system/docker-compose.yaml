@@ -25,5 +25,4 @@ services:
       start_period: 40s
 networks:
   structure-cloud-work:
-    driver: overlay
     external: true

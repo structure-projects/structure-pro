@@ -27,5 +27,5 @@ services:
             - ${HOST_IP}:${PANEL_APP_PORT_HTTP}:9090
         restart: always
         volumes:
-            - ./conf:/etc/prometheus/
-            - ./prometheus:/prometheus
+            - ${PWD}/conf:/etc/prometheus/
+            - ${PWD}/prometheus:/prometheus

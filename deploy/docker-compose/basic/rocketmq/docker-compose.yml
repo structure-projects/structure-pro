@@ -23,9 +23,9 @@ services:
             - ${PANEL_APP_PORT_LISTEN}:10911
             - ${PANEL_APP_PORT_HALISTEN}:10912
         volumes:
-            - ./data/broker/logs:/home/rocketmq/logs
-            - ./data/broker/store:/home/rocketmq/store
-            - ./data/broker/conf/broker.conf:/opt/rocketmq-5.2.0/conf/broker.conf
+            - ${PWD}/data/broker/logs:/home/rocketmq/logs
+            - ${PWD}/data/broker/store:/home/rocketmq/store
+            - ${PWD}/data/broker/conf/broker.conf:/opt/rocketmq-5.2.0/conf/broker.conf
     dashboard:
         container_name: ${CONTAINER_NAME}-rmqdashboard
         depends_on:
@@ -94,5 +94,5 @@ services:
             - ${PANEL_APP_PORT_GRPCSERVER}:8081
         restart: on-failure
         volumes:
-            - ./data/proxy/logs:/home/rocketmq/logs
-            - ./data/proxy/conf/rmq-proxy.json:/opt/rocketmq-5.2.0/conf/rmq-proxy.json
+            - ${PWD}/data/proxy/logs:/home/rocketmq/logs
+            - ${PWD}/data/proxy/conf/rmq-proxy.json:/opt/rocketmq-5.2.0/conf/rmq-proxy.json

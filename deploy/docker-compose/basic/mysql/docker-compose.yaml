@@ -11,16 +11,16 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.role == master
+          - node.role == manager
     networks:
       - structure-cloud-work
     ports:
       - "3306:3306"
     volumes:
-      - ./data:/var/lib/mysql
-      - ./logs:/var/log/mysql/
-      - ./init.d:/docker-entrypoint-initdb.d/:ro
-      - ./config:/etc/mysql/conf.d/:rw
+      - ${PWD}/data:/var/lib/mysql
+      - ${PWD}/logs:/var/log/mysql/
+      - ${PWD}/init.d:/docker-entrypoint-initdb.d/:ro
+      - ${PWD}/config:/etc/mysql/conf.d/:rw
     environment:
       - MYSQL_ROOT_HOST=%
       - MYSQL_ROOT_PASSWORD=${ROOT_PASSWORD}

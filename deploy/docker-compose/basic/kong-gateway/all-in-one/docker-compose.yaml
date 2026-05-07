@@ -113,5 +113,4 @@ services:
       - "1337:1337"
 networks:
   structure-cloud-work:
-    driver: overlay
     external: true

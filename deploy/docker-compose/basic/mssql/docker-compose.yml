@@ -24,4 +24,4 @@ services:
             - ${HOST_IP}:${PANEL_APP_PORT_HTTP}:1433
         restart: unless-stopped
         volumes:
-            - ./data:/var/opt/mssql/data
+            - ${PWD}/data:/var/opt/mssql/data

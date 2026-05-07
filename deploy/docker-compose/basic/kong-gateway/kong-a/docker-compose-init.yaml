@@ -18,5 +18,4 @@ services:
     restart: on-failure
 networks:
   structure-cloud-work:
-    driver: overlay
     external: true

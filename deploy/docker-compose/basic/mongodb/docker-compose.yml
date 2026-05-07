@@ -24,4 +24,4 @@ services:
             - ${HOST_IP}:${PANEL_APP_PORT_HTTP}:27017
         restart: always
         volumes:
-            - ./data:/data/db
+            - ${PWD}/data:/data/db
