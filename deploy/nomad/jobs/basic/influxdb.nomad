@@ -25,11 +25,20 @@ job "influxdb" {
       config {
         image = "influxdb:2.7.10"
         ports = ["influxdb"]
+        volumes = [
+          "/opt/nomad/volumes/influxdb/data:/var/lib/influxdb2",
+          "/opt/nomad/volumes/influxdb/config:/etc/influxdb2"
+        ]
       }
 
       env {
         "CREATED_BY" = "Nomad"
         "SERVICE_NAME" = "influxdb"
+        "DOCKER_INFLUXDB_INIT_MODE" = "setup"
+        "DOCKER_INFLUXDB_INIT_USERNAME" = "admin"
+        "DOCKER_INFLUXDB_INIT_PASSWORD" = "password"
+        "DOCKER_INFLUXDB_INIT_ORG" = "example-org"
+        "DOCKER_INFLUXDB_INIT_BUCKET" = "example-bucket"
       }
 
       resources {

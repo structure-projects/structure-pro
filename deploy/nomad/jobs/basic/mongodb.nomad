@@ -23,13 +23,18 @@ job "mongodb" {
       driver = "docker"
 
       config {
-        image = "mongo:5.0"
+        image = "mongo:7.0.15"
         ports = ["mongodb"]
+        volumes = [
+          "/opt/nomad/volumes/mongodb:/data/db"
+        ]
       }
 
       env {
         "CREATED_BY" = "Nomad"
         "SERVICE_NAME" = "mongodb"
+        "MONGO_INITDB_ROOT_USERNAME" = "admin"
+        "MONGO_INITDB_ROOT_PASSWORD" = "password"
       }
 
       resources {

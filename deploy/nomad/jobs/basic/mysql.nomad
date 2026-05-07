@@ -25,11 +25,17 @@ job "mysql" {
       config {
         image = "mysql:8.0.25"
         ports = ["mysql"]
+        command = "--character-set-server=utf8mb4"
+        args = ["--collation-server=utf8mb4_general_ci", "--explicit_defaults_for_timestamp=true", "--lower_case_table_names=1"]
+        volumes = [
+          "/opt/nomad/volumes/mysql:/var/lib/mysql"
+        ]
       }
 
       env {
         "CREATED_BY" = "Nomad"
         "SERVICE_NAME" = "mysql"
+        "MYSQL_ROOT_PASSWORD" = "password"
       }
 
       resources {

@@ -25,6 +25,9 @@ job "redis" {
       config {
         image = "redis:6.2.16"
         ports = ["redis"]
+        volumes = [
+          "/opt/nomad/volumes/redis:/data"
+        ]
       }
 
       env {

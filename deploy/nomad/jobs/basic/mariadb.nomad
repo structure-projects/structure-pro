@@ -23,13 +23,18 @@ job "mariadb" {
       driver = "docker"
 
       config {
-        image = "mariadb:10.5"
+        image = "mariadb:11.5.2"
         ports = ["mariadb"]
+        volumes = [
+          "/opt/nomad/volumes/mariadb/data:/var/lib/mysql",
+          "/opt/nomad/volumes/mariadb/conf:/etc/mysql"
+        ]
       }
 
       env {
         "CREATED_BY" = "Nomad"
         "SERVICE_NAME" = "mariadb"
+        "MYSQL_ROOT_PASSWORD" = "password"
       }
 
       resources {

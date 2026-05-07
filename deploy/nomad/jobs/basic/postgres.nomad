@@ -25,11 +25,16 @@ job "postgres" {
       config {
         image = "postgres:13"
         ports = ["postgresql"]
+        volumes = [
+          "/opt/nomad/volumes/postgres:/var/lib/postgresql/data"
+        ]
       }
 
       env {
         "CREATED_BY" = "Nomad"
         "SERVICE_NAME" = "postgres"
+        "POSTGRES_USER" = "postgres"
+        "POSTGRES_PASSWORD" = "password"
       }
 
       resources {

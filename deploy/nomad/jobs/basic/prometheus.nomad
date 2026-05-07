@@ -23,8 +23,14 @@ job "prometheus" {
       driver = "docker"
 
       config {
-        image = "prom/prometheus:v2.45.0"
+        image = "prom/prometheus:v2.55.1"
         ports = ["prometheus"]
+        command = "--config.file=/etc/prometheus/prometheus.yml"
+        args = ["--storage.tsdb.path=/prometheus", "--web.console.libraries=/etc/prometheus/console_libraries", "--web.console.templates=/etc/prometheus/consoles", "--storage.tsdb.retention=200h"]
+        volumes = [
+          "/opt/nomad/volumes/prometheus/conf:/etc/prometheus",
+          "/opt/nomad/volumes/prometheus/data:/prometheus"
+        ]
       }
 
       env {

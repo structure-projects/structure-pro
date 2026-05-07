@@ -27,8 +27,15 @@ job "clickhouse" {
       driver = "docker"
 
       config {
-        image = "clickhouse/clickhouse-server:23.8"
-        ports = ["clickhouse"]
+        image = "clickhouse/clickhouse-server:24.10.1-alpine"
+        ports = ["clickhouse", "native"]
+        volumes = [
+          "/opt/nomad/volumes/clickhouse/data:/var/lib/clickhouse",
+          "/opt/nomad/volumes/clickhouse/log:/var/log/clickhouse-server"
+        ]
+        ulimits {
+          nofile = 262144
+        }
       }
 
       env {

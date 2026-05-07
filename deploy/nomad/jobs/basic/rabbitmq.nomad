@@ -27,13 +27,19 @@ job "rabbitmq" {
       driver = "docker"
 
       config {
-        image = "rabbitmq:3.12-management"
-        ports = ["amqp"]
+        image = "rabbitmq:4.0.3-management-alpine"
+        ports = ["amqp", "mgmt"]
+        volumes = [
+          "/opt/nomad/volumes/rabbitmq:/var/lib/rabbitmq",
+          "/opt/nomad/volumes/rabbitmq-log:/var/log/rabbitmq"
+        ]
       }
 
       env {
         "CREATED_BY" = "Nomad"
         "SERVICE_NAME" = "rabbitmq"
+        "RABBITMQ_DEFAULT_USER" = "guest"
+        "RABBITMQ_DEFAULT_PASS" = "guest"
       }
 
       resources {
