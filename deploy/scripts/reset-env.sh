@@ -6,7 +6,7 @@
 set -e
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-DOCKER_COMPOSE_DIR="$PROJECT_ROOT/deploy/docker-compose"
+DOCKER_COMPOSE_DIR="$PROJECT_ROOT/docker-compose"
 
 echo "================================================"
 echo " Structure Cloud Pro - 一键重置环境"
@@ -30,12 +30,12 @@ echo ""
 
 # 1. 停止所有服务
 echo "🟥 正在停止所有服务..."
-bash "$PROJECT_ROOT/deploy/scripts/stop-all.sh"
+bash "$PROJECT_ROOT/scripts/stop-all.sh"
 
 # 2. 清理所有数据
 echo ""
 echo "🗑️  正在清理所有数据..."
-bash "$PROJECT_ROOT/deploy/scripts/clean-all-data.sh"
+bash "$PROJECT_ROOT/scripts/clean-all-data.sh"
 
 # 3. 等待清理完成
 echo ""
@@ -45,7 +45,7 @@ sleep 5
 # 4. 重新启动环境
 echo ""
 echo "🔄 正在重新启动完整开发环境..."
-bash "$PROJECT_ROOT/deploy/scripts/start-full-dev.sh"
+bash "$PROJECT_ROOT/scripts/start-full-dev.sh"
 
 echo ""
 echo "================================================"

@@ -6,7 +6,7 @@
 set -e
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-DOCKER_COMPOSE_DIR="$PROJECT_ROOT/deploy/docker-compose"
+DOCKER_COMPOSE_DIR="$PROJECT_ROOT/docker-compose"
 
 echo "================================================"
 echo " Structure Cloud Pro - 可观测性服务启动"

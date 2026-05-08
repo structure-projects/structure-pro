@@ -9,7 +9,7 @@ if [ "$confirm" != "yes" ]; then
 fi
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-DOCKER_COMPOSE_DIR="$PROJECT_ROOT/deploy/docker-compose"
+DOCKER_COMPOSE_DIR="$PROJECT_ROOT/docker-compose"
 
 echo "================================================"
 echo " Structure Cloud Pro - 清理所有数据"
@@ -17,7 +17,7 @@ echo "================================================"
 echo ""
 
 # 先停止所有服务
-bash "$PROJECT_ROOT/deploy/scripts/stop-all.sh"
+bash "$PROJECT_ROOT/scripts/stop-all.sh"
 
 cd "$DOCKER_COMPOSE_DIR"
 

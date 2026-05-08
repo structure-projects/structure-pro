@@ -5,7 +5,7 @@
 set -e
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-HELM_DIR="$PROJECT_ROOT/deploy/helm"
+HELM_DIR="$PROJECT_ROOT/helm"
 
 echo "================================================"
 echo " Structure Cloud Pro - Kubernetes 开发环境部署"
