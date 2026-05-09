@@ -49,3 +49,9 @@
 [submodule "structure-audit"]
 	path = structure-audit
 	url = https://github.com/structure-projects/structure-audit.git
+[submodule "structure-member"]
+	path = structure-member
+	url = https://github.com/structure-projects/structure-member.git
+[submodule "structure-account"]
+	path = structure-account
+	url = https://github.com/structure-projects/structure-account.git
