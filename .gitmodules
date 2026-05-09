@@ -76,3 +76,9 @@
 [submodule "structure-incentive"]
 	path = structure-incentive
 	url = https://github.com/structure-projects/structure-incentive.git
+[submodule "structure-sso"]
+	path = structure-sso
+	url = https://github.com/structure-projects/structure-sso.git
+[submodule "structure-portal"]
+	path = structure-portal
+	url = https://github.com/structure-projects/structure-portal.git
