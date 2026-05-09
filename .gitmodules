@@ -1,3 +1,6 @@
 [submodule "structure-gateway"]
 	path = structure-gateway
 	url = https://github.com/structure-projects/structure-gateway.git
+[submodule "structure-oauth"]
+	path = structure-oauth
+	url = https://github.com/structure-projects/structure-oauth.git
