@@ -73,3 +73,6 @@
 [submodule "structure-advertising"]
 	path = structure-advertising
 	url = https://github.com/structure-projects/structure-advertising.git
+[submodule "structure-incentive"]
+	path = structure-incentive
+	url = https://github.com/structure-projects/structure-incentive.git
