@@ -88,3 +88,6 @@
 [submodule "structure-data"]
 	path = structure-data
 	url = https://github.com/structure-projects/structure-data.git
+[submodule "structure-iam"]
+	path = structure-iam
+	url = https://github.com/structure-projects/structure-iam.git
