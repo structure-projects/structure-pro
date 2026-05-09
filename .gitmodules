@@ -40,3 +40,6 @@
 [submodule "structure-trade"]
 	path = structure-trade
 	url = https://github.com/structure-projects/structure-trade.git
+[submodule "structure-ops"]
+	path = structure-ops
+	url = https://github.com/structure-projects/structure-ops.git
