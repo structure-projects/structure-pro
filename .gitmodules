@@ -55,3 +55,6 @@
 [submodule "structure-account"]
 	path = structure-account
 	url = https://github.com/structure-projects/structure-account.git
+[submodule "structure-order"]
+	path = structure-order
+	url = https://github.com/structure-projects/structure-order.git
