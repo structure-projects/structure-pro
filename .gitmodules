@@ -34,3 +34,6 @@
 [submodule "structure-monitor"]
 	path = structure-monitor
 	url = https://github.com/structure-projects/structure-monitor.git
+[submodule "structure-message"]
+	path = structure-message
+	url = https://github.com/structure-projects/structure-message.git
