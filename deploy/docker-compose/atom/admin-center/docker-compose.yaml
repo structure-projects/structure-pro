@@ -3,7 +3,6 @@ services:
   content-center:
     image: registry.cn-hangzhou.aliyuncs.com/structured/structured-admin-center:latest
     restart: always
-    pull_policy: always
     hostname: admin-center #服务内不使用host进行通信一定要配置
     env_file:
       - ../.env

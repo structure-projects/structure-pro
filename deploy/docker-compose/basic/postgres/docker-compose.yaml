@@ -15,7 +15,7 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.role == master
+          - node.role == manager
     ports:
       - "5432:5432"
     volumes:

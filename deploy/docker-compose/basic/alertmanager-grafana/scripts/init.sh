@@ -12,6 +12,7 @@ mkdir -p ${PWD}/grafana/dashboards
 mkdir -p ${PWD}/grafana/data
 
 chown -R 472:472 data
+chown -R 472:472 grafana
 
 if [ -f "${COMMON_SCRIPT}" ]; then
     source "${COMMON_SCRIPT}"

@@ -3,24 +3,24 @@ networks:
         external: true
 services:
     oap:
-        container_name: structure-skywalking-oap
-        image: apache/skywalking-oap-server:9.5.0
-        hostname: structure-skywalking-oap
+        container_name: skywalking-oap
+        image: apache/skywalking-oap-server:9.7.0
+        hostname: oap
         deploy:
             resources:
                 limits:
-                    cpus: 2
+                    cpus: "2"
                     memory: 4G
             placement:
                 constraints:
-                    - node.role == master
+                    - node.role == worker
         networks:
             - structure-cloud-work
         environment:
             - SW_STORAGE=elasticsearch
             - SW_STORAGE_ES_CLUSTER_NODES=elasticsearch:9200
             - SW_ES_USER=elastic
-            - SW_ES_PASSWORD=123456
+            - SW_ES_PASSWORD=Elastic_aXbnMp
             - JAVA_OPTS=-Xms2g -Xmx2g
         volumes:
             - ${PWD}/data:/data
@@ -28,19 +28,14 @@ services:
             - 11800:11800  # gRPC receiver
             - 12800:12800  # REST API
         restart: always
-        healthcheck:
-            test: ["CMD", "curl", "-f", "http://localhost:12800/health"]
-            interval: 30s
-            timeout: 10s
-            retries: 5
 
     ui:
-        container_name: structure-skywalking-ui
-        image: apache/skywalking-ui:9.5.0
+        container_name: skywalking-ui
+        image: apache/skywalking-ui:9.7.0
         deploy:
             resources:
                 limits:
-                    cpus: 1
+                    cpus: "1"
                     memory: 1G
             placement:
                 constraints:
@@ -48,9 +43,7 @@ services:
         networks:
             - structure-cloud-work
         environment:
-            - SW_OAP_ADDRESS=structure-skywalking-oap:12800
+            - SW_OAP_ADDRESS=http://oap:12800
         ports:
             - 28080:8080
         restart: always
-        depends_on:
-            - oap

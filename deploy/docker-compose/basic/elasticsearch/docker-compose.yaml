@@ -12,7 +12,7 @@ services:
           memory: 2048M
       placement:
         constraints:
-          - node.role == master
+          - node.role == manager
     volumes:
       - "${PWD}/data/data:/usr/share/elasticsearch/data"
       - "${PWD}/data/backup:/usr/share/elasticsearch/backup"

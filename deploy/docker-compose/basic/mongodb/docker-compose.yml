@@ -7,7 +7,7 @@ services:
         deploy:
             placement:
                 constraints:
-                    - node.role == master
+                    - node.role == manager
         environment:
             MONGO_INITDB_ROOT_PASSWORD: ${PANEL_DB_ROOT_PASSWORD}
             MONGO_INITDB_ROOT_USERNAME: ${PANEL_DB_ROOT_USER}

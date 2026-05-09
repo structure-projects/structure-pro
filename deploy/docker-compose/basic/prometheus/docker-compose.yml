@@ -10,17 +10,18 @@ services:
             - --web.console.templates=/etc/prometheus/consoles
             - --storage.tsdb.retention=200h
         container_name: ${CONTAINER_NAME}
+        hostname: prometheus
         deploy:
             placement:
                 constraints:
-                    - node.role == master
+                    - node.role == manager
         image: prom/prometheus:v2.55.1
         labels:
             createdBy: Apps
         networks:
             - structure-cloud-work
         ports:
-            - ${HOST_IP}:${PANEL_APP_PORT_HTTP}:9090
+            - ${PANEL_APP_PORT_HTTP}:9090
         restart: always
         volumes:
             - ${PWD}/conf:/etc/prometheus/

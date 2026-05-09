@@ -3,7 +3,6 @@ services:
   oauth-center:
     image: registry.cn-hangzhou.aliyuncs.com/structured/structured-oauth-center:latest
     restart: always
-    pull_policy: always
     hostname: auth-center #服务内不使用host进行通信一定要配置
     env_file:
       - ../.env

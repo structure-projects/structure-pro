@@ -4,6 +4,7 @@ networks:
 services:
     sentinel-dashboard:
         container_name: ${CONTAINER_NAME}
+        hostname: sentinel-dashboard
         deploy:
             placement:
               constraints:
@@ -14,6 +15,6 @@ services:
         networks:
             - structure-cloud-work
         ports:
-            - ${HOST_IP}:${PANEL_APP_PORT_HTTP}:8858
-            - ${HOST_IP}:${PANEL_APP_PORT_COMMUNICATION}:8719
+            - ${PANEL_APP_PORT_HTTP}:8858
+            - ${PANEL_APP_PORT_COMMUNICATION}:8719
         restart: always

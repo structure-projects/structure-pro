@@ -21,7 +21,6 @@ services:
       - ${PWD}/logs:/var/log/mysql/
       - ${PWD}/init.d:/docker-entrypoint-initdb.d/:ro
       - ${PWD}/config:/etc/mysql/conf.d/:rw
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     environment:
       - MYSQL_ROOT_HOST=%

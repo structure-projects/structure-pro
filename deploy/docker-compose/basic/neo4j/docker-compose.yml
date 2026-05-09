@@ -7,7 +7,7 @@ services:
         deploy:
             placement:
               constraints:
-                - node.role == master
+                - node.role == manager
         image: neo4j:5.25.1
         labels:
             createdBy: Apps

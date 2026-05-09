@@ -7,7 +7,7 @@ services:
         deploy:
             placement:
                 constraints:
-                    - node.role == master
+                    - node.role == manager
         image: clickhouse/clickhouse-server:24.10.1-alpine
         labels:
             createdBy: Apps

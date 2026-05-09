@@ -12,7 +12,7 @@ services:
                   memory: "512m"
             placement:
                 constraints:
-                    - node.role == master
+                    - node.role == worker
         networks:
             - structure-cloud-work
         ports:
@@ -35,7 +35,7 @@ services:
         deploy:
             resources:
                 limits:
-                    cpus: 1
+                    cpus: "1"
                     memory: 1G
             placement:
                 constraints:

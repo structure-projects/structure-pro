@@ -9,8 +9,9 @@ services:
               constraints:
                 - node.role == worker
         environment:
-            - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
-            - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+          RABBITMQ_DEFAULT_VHOST: '/'
+          RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+          RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
         hostname: rabbitmq
         image: rabbitmq:4.0.3-management-alpine
         labels:
@@ -18,8 +19,8 @@ services:
         networks:
             - structure-cloud-work
         ports:
-            - ${HOST_IP}:${PANEL_APP_PORT_SERVICE}:5672
-            - ${HOST_IP}:${PANEL_APP_PORT_HTTP}:15672
+            - ${PANEL_APP_PORT_SERVICE}:5672
+            - ${PANEL_APP_PORT_HTTP}:15672
         restart: always
         volumes:
             - ${PWD}/data/:/var/lib/rabbitmq/
