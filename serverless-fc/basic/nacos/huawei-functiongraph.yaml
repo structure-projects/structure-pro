@@ -1,0 +1,33 @@
+name: nacos
+description: Nacos Service Discovery
+region: cn-north-4
+project: {project}
+function:
+  name: nacos
+  description: Nacos Service Discovery
+  runtime: CustomImage
+  handler: ''
+  memorySize: 2048
+  timeout: 300
+  codeType: CustomImage
+  customImage:
+    image: nacos/nacos-server:latest
+    port: 8848
+  environmentVariables:
+    MODE: standalone
+
+  vpcId: ''
+  subnetId: ''
+  enterpriseProjectId: default
+  agency: ''
+  xrole: ''
+  concurrency:
+    strategy: dynamic
+    maxConcurrent: 100
+  triggers:
+    - triggerType: APIG
+      eventData:
+        auth: IAM
+        name: nacos-apig
+        protocol: HTTP
+        timeout: 5000

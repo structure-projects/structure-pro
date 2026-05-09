@@ -1,6 +1,0 @@
-apiVersion: v2
-name: rabbitmq3
-description: rabbitmq消息队列
-type: application
-version: 1.0.1
-appVersion: "3.8-management"

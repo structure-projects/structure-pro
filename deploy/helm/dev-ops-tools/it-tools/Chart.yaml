@@ -1,6 +1,0 @@
-apiVersion: v2
-name: it-tools
-description: IT工具集
-type: application
-version: 1.0.1
-appVersion: "2024.10.22-7ca5933"

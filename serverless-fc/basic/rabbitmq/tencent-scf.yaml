@@ -1,0 +1,47 @@
+appId: {appId}
+component: scf
+name: rabbitmq
+stage: prod
+org: {org}
+app: rabbitmq-app
+inputs:
+  name: rabbitmq
+  src:
+    src: ./
+    exclude:
+      - .env
+  region: ap-guangzhou
+  runtime: CustomContainer
+  description: RabbitMQ Message Broker
+  namespace: default
+  type: web
+  memorySize: 2048
+  timeout: 300
+  initTimeout: 300
+  cls:
+    logsetId: ''
+    topicId: ''
+  layers: []
+  environment:
+    variables:
+
+  containerConf:
+    image: rabbitmq:management
+    containerPort: 5672
+    imageTag: latest
+  vpcConfig:
+    vpcId: ''
+    subnetId: ''
+  triggers:
+    - type: apigw
+      parameters:
+        name: rabbitmq-apigw
+        protocols:
+          - http
+          - https
+        serviceName: serverless
+        description: API Gateway trigger for rabbitmq
+        environment: release
+        endPoints:
+          - path: /
+            method: ANY

@@ -1,0 +1,71 @@
+edition: 3.0.0
+name: {{service_name}}-service
+access: default
+vars:
+  region: cn-hangzhou
+  service:
+    name: {{service_name}}
+    description: {{service_description}}
+    internetAccess: true
+  function:
+    name: {{service_name}}
+    description: {{service_description}}
+    runtime: custom-container
+    cpu: {{cpu}}
+    memorySize: {{memory}}
+    timeout: {{timeout}}
+    caPort: {{port}}
+    customContainerConfig:
+      image: {{image}}
+      command: []
+      args: []
+      accelerationType: Default
+      webServerMode: true
+  triggers:
+    - name: httpTrigger
+      type: http
+      qualifier: LATEST
+      description: HTTP Trigger
+      httpTriggerConfig:
+        authType: anonymous
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - HEAD
+          - PATCH
+          - OPTIONS
+resources:
+  {{service_name}}:
+    component: fc3
+    props:
+      region: ${vars.region}
+      description: ${vars.service.description}
+      internetAccess: ${vars.service.internetAccess}
+      role: acs:ram::{{accountId}}:role/AliyunFCDefaultRole
+      logConfig:
+        enableInstanceMetrics: false
+        enableRequestMetrics: false
+      vpcConfig:
+        vpcId: ''
+        vswitchIds: []
+        securityGroupId: ''
+      nasConfig:
+        userId: -1
+        groupId: -1
+        mountPoints: []
+      functionName: ${vars.function.name}
+      description: ${vars.function.description}
+      runtime: ${vars.function.runtime}
+      cpu: ${vars.function.cpu}
+      memorySize: ${vars.function.memorySize}
+      timeout: ${vars.function.timeout}
+      codeUri: ./
+      caPort: ${vars.function.caPort}
+      customContainerConfig: ${vars.function.customContainerConfig}
+      environmentVariables:
+{{#each env_vars}}
+        {{key}}: {{value}}
+{{/each}}
+      triggers: ${vars.triggers}

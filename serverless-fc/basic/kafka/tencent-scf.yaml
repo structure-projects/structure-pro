@@ -1,0 +1,48 @@
+appId: {appId}
+component: scf
+name: kafka
+stage: prod
+org: {org}
+app: kafka-app
+inputs:
+  name: kafka
+  src:
+    src: ./
+    exclude:
+      - .env
+  region: ap-guangzhou
+  runtime: CustomContainer
+  description: Apache Kafka Message Queue
+  namespace: default
+  type: web
+  memorySize: 4096
+  timeout: 600
+  initTimeout: 300
+  cls:
+    logsetId: ''
+    topicId: ''
+  layers: []
+  environment:
+    variables:
+      KAFKA_ZOOKEEPER_CONNECT: localhost:2181
+
+  containerConf:
+    image: confluentinc/cp-kafka:latest
+    containerPort: 9092
+    imageTag: latest
+  vpcConfig:
+    vpcId: ''
+    subnetId: ''
+  triggers:
+    - type: apigw
+      parameters:
+        name: kafka-apigw
+        protocols:
+          - http
+          - https
+        serviceName: serverless
+        description: API Gateway trigger for kafka
+        environment: release
+        endPoints:
+          - path: /
+            method: ANY

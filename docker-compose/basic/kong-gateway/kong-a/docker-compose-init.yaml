@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  #######################
+  #以下两个是konga  GUI
+  #######################
+  konga-prepare:
+    image: pantsel/konga:latest
+    command: "-c prepare -a postgres -u postgresql://postgresql:kpostgres@localhostong@kong-database:5432/konga"  #注意是用户名：密码@数据库服务名称：端口
+    deploy:
+      restart_policy:
+        condition: on-failure
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == worker
+    networks:
+      - structure-cloud-work
+    restart: on-failure
+networks:
+  structure-cloud-work:
+    external: true

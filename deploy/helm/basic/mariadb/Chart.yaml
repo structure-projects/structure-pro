@@ -1,6 +1,0 @@
-apiVersion: v2
-name: mariadb
-description: mariadb数据库
-type: application
-version: 1.0.1
-appVersion: "11.5.2"

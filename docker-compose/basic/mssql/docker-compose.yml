@@ -1,0 +1,23 @@
+networks:
+    structure-cloud-work:
+        external: true
+services:
+    mssql:
+        container_name: ${CONTAINER_NAME}
+        deploy:
+            placement:
+              constraints:
+                - node.role == manager
+        environment:
+            - ACCEPT_EULA=Y
+            - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        labels:
+            createdBy: Apps
+        networks:
+            - structure-cloud-work
+        ports:
+            - ${HOST_IP}:${PANEL_APP_PORT_HTTP}:1433
+        restart: unless-stopped
+        volumes:
+            - ${PWD}/data:/var/opt/mssql/data

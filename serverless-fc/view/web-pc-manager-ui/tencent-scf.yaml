@@ -1,0 +1,47 @@
+appId: {appId}
+component: scf
+name: web-pc-manager-ui
+stage: prod
+org: {org}
+app: web-pc-manager-ui-app
+inputs:
+  name: web-pc-manager-ui
+  src:
+    src: ./
+    exclude:
+      - .env
+  region: ap-guangzhou
+  runtime: CustomContainer
+  description: Web PC Manager UI
+  namespace: default
+  type: web
+  memorySize: 1024
+  timeout: 300
+  initTimeout: 300
+  cls:
+    logsetId: ''
+    topicId: ''
+  layers: []
+  environment:
+    variables:
+
+  containerConf:
+    image: registry.cn-hangzhou.aliyuncs.com/structured/web-pc-manager-ui:latest
+    containerPort: 80
+    imageTag: latest
+  vpcConfig:
+    vpcId: ''
+    subnetId: ''
+  triggers:
+    - type: apigw
+      parameters:
+        name: web-pc-manager-ui-apigw
+        protocols:
+          - http
+          - https
+        serviceName: serverless
+        description: API Gateway trigger for web-pc-manager-ui
+        environment: release
+        endPoints:
+          - path: /
+            method: ANY

@@ -1,6 +1,0 @@
-apiVersion: v2
-name: manager-system
-description: 管理系统后台服务
-type: application
-version: 1.0.1
-appVersion: "1.0.1"

@@ -1,0 +1,32 @@
+name: clickhouse
+description: ClickHouse Database Service
+region: cn-north-4
+project: {project}
+function:
+  name: clickhouse
+  description: ClickHouse Database Service
+  runtime: CustomImage
+  handler: ''
+  memorySize: 4096
+  timeout: 600
+  codeType: CustomImage
+  customImage:
+    image: clickhouse/clickhouse-server:latest
+    port: 8123
+  environmentVariables:
+
+  vpcId: ''
+  subnetId: ''
+  enterpriseProjectId: default
+  agency: ''
+  xrole: ''
+  concurrency:
+    strategy: dynamic
+    maxConcurrent: 100
+  triggers:
+    - triggerType: APIG
+      eventData:
+        auth: IAM
+        name: clickhouse-apig
+        protocol: HTTP
+        timeout: 5000

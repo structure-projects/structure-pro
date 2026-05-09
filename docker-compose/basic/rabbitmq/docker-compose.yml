@@ -1,0 +1,27 @@
+networks:
+    structure-cloud-work:
+        external: true
+services:
+    rabbitmq:
+        container_name: ${CONTAINER_NAME}
+        deploy:
+            placement:
+              constraints:
+                - node.role == worker
+        environment:
+          RABBITMQ_DEFAULT_VHOST: '/'
+          RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+          RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+        hostname: rabbitmq
+        image: rabbitmq:4.0.3-management-alpine
+        labels:
+            createdBy: Apps
+        networks:
+            - structure-cloud-work
+        ports:
+            - ${PANEL_APP_PORT_SERVICE}:5672
+            - ${PANEL_APP_PORT_HTTP}:15672
+        restart: always
+        volumes:
+            - ${PWD}/data/:/var/lib/rabbitmq/
+            - ${PWD}/log/:/var/log/rabbitmq

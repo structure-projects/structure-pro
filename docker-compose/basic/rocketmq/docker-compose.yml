@@ -1,0 +1,90 @@
+networks:
+    structure-cloud-work:
+        external: true
+services:
+    broker:
+        command: sh mqbroker -c /opt/rocketmq-5.2.0/conf/broker.conf
+        container_name: ${CONTAINER_NAME}-rmqbroker
+        environment:
+            - NAMESRV_ADDR=namesrv:9876
+        image: apache/rocketmq:5.3.1
+        labels:
+            createdBy: Apps
+        links:
+            - namesrv
+        networks:
+            - structure-cloud-work
+        deploy:
+          placement:
+            constraints:
+              - node.role == worker
+        ports:
+            - ${PANEL_APP_PORT_FASTLISTEN}:10909
+            - ${PANEL_APP_PORT_LISTEN}:10911
+            - ${PANEL_APP_PORT_HALISTEN}:10912
+        volumes:
+            - ${PWD}/data/broker/logs:/home/rocketmq/logs
+            - ${PWD}/data/broker/store:/home/rocketmq/store
+            - ${PWD}/data/broker/conf/broker.conf:/opt/rocketmq-5.2.0/conf/broker.conf
+    dashboard:
+        container_name: ${CONTAINER_NAME}-rmqdashboard
+        depends_on:
+            - namesrv
+        environment:
+            - JAVA_OPTS=-Drocketmq.namesrv.addr=namesrv:9876
+        image: apacherocketmq/rocketmq-dashboard:latest
+        labels:
+            createdBy: Apps
+        links:
+            - namesrv
+        networks:
+            - structure-cloud-work
+        deploy:
+          placement:
+            constraints:
+              - node.role == worker
+        ports:
+            - ${PANEL_APP_PORT_HTTP}:8080
+        restart: on-failure
+    namesrv:
+        command: sh mqnamesrv
+        container_name: ${CONTAINER_NAME}-rmqnamesrv
+        deploy:
+            placement:
+              constraints:
+                - node.role == worker
+        image: apache/rocketmq:5.3.1
+        labels:
+            createdBy: Apps
+        networks:
+            - structure-cloud-work
+        ports:
+            - ${HOST_IP}:${PANEL_APP_PORT_NAMESERVER}:9876
+        volumes:
+            - ./data/namesrv/logs:/home/rocketmq/logs
+    proxy:
+        command: sh mqproxy -pc /opt/rocketmq-5.2.0/conf/rmq-proxy.json
+        container_name: ${CONTAINER_NAME}-rmqproxy
+        depends_on:
+            - broker
+        environment:
+            - NAMESRV_ADDR=namesrv:9876
+        image: apache/rocketmq:5.3.1
+        labels:
+            createdBy: Apps
+        links:
+            - namesrv
+            - broker
+        networks:
+            - structure-cloud-work
+        deploy:
+          placement:
+            constraints:
+              - node.role == worker
+        ports:
+            - ${PANEL_APP_PORT_REMOTINGLISTEN}:8080
+            - ${PANEL_APP_PORT_GRPCSERVER}:8081
+        restart: on-failure
+        volumes:
+            - ${PWD}/data/proxy/logs:/home/rocketmq/logs
+            - ${PWD}/data/proxy/conf/rmq-proxy.json:/opt/rocketmq-5.2.0/conf/rmq-proxy.json

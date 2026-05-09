@@ -1,6 +1,0 @@
-apiVersion: v2
-name: openldap
-description: openldap目录服务
-type: application
-version: 1.0.1
-appVersion: "2.6.8"

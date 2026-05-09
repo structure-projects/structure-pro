@@ -1,0 +1,22 @@
+networks:
+    structure-cloud-work:
+        external: true
+services:
+    neo4j:
+        container_name: ${CONTAINER_NAME}
+        deploy:
+            placement:
+              constraints:
+                - node.role == manager
+        image: neo4j:5.25.1
+        labels:
+            createdBy: Apps
+        networks:
+            - structure-cloud-work
+        ports:
+            - ${HOST_IP}:${PANEL_APP_PORT_HTTP}:7474
+            - ${HOST_IP}:${PANEL_APP_PORT_BOLT}:7687
+        restart: always
+        volumes:
+            - ${PWD}/data/data:/data
+            - ${PWD}/data/logs:/logs

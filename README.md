@@ -291,9 +291,9 @@ docker volume prune -f
 
 更多详细内容请参考：
 - [部署完整文档](README-full.md) - 包含完整的部署说明、技术架构、运维指南等
-- [Docker Swarm 集群部署](deploy/docker/docker-swarm.md) - Swarm 高可用集群部署指南
-- [在线 Docker 安装](deploy/docker/on-line-docker.md) - 在线环境 Docker 安装
-- [离线 Docker 安装](deploy/docker/off-line-docker.md) - 离线环境 Docker 安装
+- [Docker Swarm 集群部署](docker/docker-swarm.md) - Swarm 高可用集群部署指南
+- [在线 Docker 安装](docker/on-line-docker.md) - 在线环境 Docker 安装
+- [离线 Docker 安装](docker/off-line-docker.md) - 离线环境 Docker 安装
 
 ## 📄 许可证
 

@@ -1,0 +1,48 @@
+appId: {appId}
+component: scf
+name: nacos
+stage: prod
+org: {org}
+app: nacos-app
+inputs:
+  name: nacos
+  src:
+    src: ./
+    exclude:
+      - .env
+  region: ap-guangzhou
+  runtime: CustomContainer
+  description: Nacos Service Discovery
+  namespace: default
+  type: web
+  memorySize: 2048
+  timeout: 300
+  initTimeout: 300
+  cls:
+    logsetId: ''
+    topicId: ''
+  layers: []
+  environment:
+    variables:
+      MODE: standalone
+
+  containerConf:
+    image: nacos/nacos-server:latest
+    containerPort: 8848
+    imageTag: latest
+  vpcConfig:
+    vpcId: ''
+    subnetId: ''
+  triggers:
+    - type: apigw
+      parameters:
+        name: nacos-apigw
+        protocols:
+          - http
+          - https
+        serviceName: serverless
+        description: API Gateway trigger for nacos
+        environment: release
+        endPoints:
+          - path: /
+            method: ANY

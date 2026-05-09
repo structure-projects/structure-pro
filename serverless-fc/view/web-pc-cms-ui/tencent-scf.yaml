@@ -1,0 +1,47 @@
+appId: {appId}
+component: scf
+name: web-pc-cms-ui
+stage: prod
+org: {org}
+app: web-pc-cms-ui-app
+inputs:
+  name: web-pc-cms-ui
+  src:
+    src: ./
+    exclude:
+      - .env
+  region: ap-guangzhou
+  runtime: CustomContainer
+  description: Web PC CMS UI
+  namespace: default
+  type: web
+  memorySize: 1024
+  timeout: 300
+  initTimeout: 300
+  cls:
+    logsetId: ''
+    topicId: ''
+  layers: []
+  environment:
+    variables:
+
+  containerConf:
+    image: registry.cn-hangzhou.aliyuncs.com/structured/web-pc-cms-ui:latest
+    containerPort: 80
+    imageTag: latest
+  vpcConfig:
+    vpcId: ''
+    subnetId: ''
+  triggers:
+    - type: apigw
+      parameters:
+        name: web-pc-cms-ui-apigw
+        protocols:
+          - http
+          - https
+        serviceName: serverless
+        description: API Gateway trigger for web-pc-cms-ui
+        environment: release
+        endPoints:
+          - path: /
+            method: ANY

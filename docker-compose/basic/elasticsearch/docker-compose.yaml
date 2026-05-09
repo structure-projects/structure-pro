@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  elasticsearch:
+    image: elasticsearch:8.16.0
+    container_name: elasticsearch
+    hostname: elasticsearch
+    networks:
+      - structure-cloud-work
+    deploy:
+      resources:
+        limits:
+          memory: 2048M
+      placement:
+        constraints:
+          - node.role == manager
+    volumes:
+      - "${PWD}/data/data:/usr/share/elasticsearch/data"
+      - "${PWD}/data/backup:/usr/share/elasticsearch/backup"
+      - "${PWD}/data/conf/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml"
+    ports:
+      - "9200:9200"
+    environment:
+      - node.name=es
+      - cluster.name=elasticsearch
+      - discovery.type=single-node
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xlog:disable -Xlog:gc=debug:stderr -Xms512m -Xmx512m
+    privileged: true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+networks:
+  structure-cloud-work:
+    external: true

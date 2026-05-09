@@ -1,0 +1,35 @@
+name: user-center
+description: User Center Service
+region: cn-north-4
+project: {project}
+function:
+  name: user-center
+  description: User Center Service
+  runtime: CustomImage
+  handler: ''
+  memorySize: 2048
+  timeout: 300
+  codeType: CustomImage
+  customImage:
+    image: registry.cn-hangzhou.aliyuncs.com/structured/structured-user-center:latest
+    port: 8080
+  environmentVariables:
+    APP_PATH: /app/cloud/app.jar
+    JAVA_OPTS: -Xms256m -Xmx1024m
+    PARAMS: -Dfile.encoding=UTF-8 -Dspring.profiles.active=pro -Djava.security.egd=file:/dev/./urandom -Duser.timezone=Asia/Shanghai
+
+  vpcId: ''
+  subnetId: ''
+  enterpriseProjectId: default
+  agency: ''
+  xrole: ''
+  concurrency:
+    strategy: dynamic
+    maxConcurrent: 100
+  triggers:
+    - triggerType: APIG
+      eventData:
+        auth: IAM
+        name: user-center-apig
+        protocol: HTTP
+        timeout: 5000

@@ -903,9 +903,9 @@ nomad node status
 
 | 脚本 | 说明 | 推荐场景 |
 |------|------|----------|
-| [start-minimal-dev.sh](deploy/scripts/start-minimal-dev.sh) | 最小化开发环境（核心服务） | 快速本地开发测试 |
-| [start-full-dev.sh](deploy/scripts/start-full-dev.sh) | 完整开发环境（所有服务） | 完整功能测试开发 |
-| [start-observability-only.sh](deploy/scripts/start-observability-only.sh) | 仅可观测性服务 | 监控调试场景 |
+| [start-minimal-dev.sh](scripts/start-minimal-dev.sh) | 最小化开发环境（核心服务） | 快速本地开发测试 |
+| [start-full-dev.sh](scripts/start-full-dev.sh) | 完整开发环境（所有服务） | 完整功能测试开发 |
+| [start-observability-only.sh](scripts/start-observability-only.sh) | 仅可观测性服务 | 监控调试场景 |
 
 ### 🛠️ 2. 运维工具脚本 (ops)
 
@@ -913,11 +913,11 @@ nomad node status
 
 | 脚本 | 说明 |
 |------|------|
-| [stop-all.sh](deploy/scripts/stop-all.sh) | 停止所有服务 |
-| [reset-env.sh](deploy/scripts/reset-env.sh) | 一键重置环境（停止+清理+重启） |
-| [clean-all-data.sh](deploy/scripts/clean-all-data.sh) | 清理所有数据 |
-| [status.sh](deploy/scripts/status.sh) | 查看服务状态 |
-| [open-nav.sh](deploy/scripts/open-nav.sh) | 生成系统导航页面 |
+| [stop-all.sh](scripts/stop-all.sh) | 停止所有服务 |
+| [reset-env.sh](scripts/reset-env.sh) | 一键重置环境（停止+清理+重启） |
+| [clean-all-data.sh](scripts/clean-all-data.sh) | 清理所有数据 |
+| [status.sh](scripts/status.sh) | 查看服务状态 |
+| [open-nav.sh](scripts/open-nav.sh) | 生成系统导航页面 |
 
 ### 📦 3. Docker Compose 部署脚本 (docker-compose)
 
@@ -925,9 +925,9 @@ nomad node status
 
 | 脚本 | 说明 |
 |------|------|
-| [start-local-docker-compose.sh](deploy/scripts/start-local-docker-compose.sh) | 启动基础服务 |
-| [start-atom-services.sh](deploy/scripts/start-atom-services.sh) | 启动原子服务 |
-| [start-apps.sh](deploy/scripts/start-apps.sh) | 启动应用系统 |
+| [start-local-docker-compose.sh](scripts/start-local-docker-compose.sh) | 启动基础服务 |
+| [start-atom-services.sh](scripts/start-atom-services.sh) | 启动原子服务 |
+| [start-apps.sh](scripts/start-apps.sh) | 启动应用系统 |
 
 ### 🐳 4. Docker Swarm 部署脚本 (swarm)
 
@@ -935,8 +935,8 @@ Docker Swarm 集群模式部署。
 
 | 脚本 | 说明 |
 |------|------|
-| [deploy-swarm.sh](deploy/scripts/deploy-swarm.sh) | 部署 Swarm 集群 |
-| [clean-swarm.sh](deploy/scripts/clean-swarm.sh) | 清理 Swarm 集群 |
+| [deploy-swarm.sh](scripts/deploy-swarm.sh) | 部署 Swarm 集群 |
+| [clean-swarm.sh](scripts/clean-swarm.sh) | 清理 Swarm 集群 |
 
 ### ☸️ 5. Kubernetes 部署脚本 (k8s)
 
@@ -944,7 +944,7 @@ Kubernetes 部署相关脚本。
 
 | 脚本 | 说明 |
 |------|------|
-| [deploy-k8s-dev.sh](deploy/scripts/deploy-k8s-dev.sh) | K8s 开发环境部署 |
+| [deploy-k8s-dev.sh](scripts/deploy-k8s-dev.sh) | K8s 开发环境部署 |
 
 ---
 
@@ -1244,9 +1244,9 @@ jobs:
 
 项目包含以下详细部署文档：
 
-- [Docker Swarm 集群高可用部署](deploy/docker/docker-swarm.md) - 包含环境配置、集群搭建、Portainer 管理等完整指南
-- [在线 Docker 安装](deploy/docker/on-line-docker.md) - 在线环境下 Docker 和 Docker Compose 的安装步骤
-- [离线 Docker 安装](deploy/docker/off-line-docker.md) - 离线环境下 Docker 的安装和配置方法
+- [Docker Swarm 集群高可用部署](docker/docker-swarm.md) - 包含环境配置、集群搭建、Portainer 管理等完整指南
+- [在线 Docker 安装](docker/on-line-docker.md) - 在线环境下 Docker 和 Docker Compose 的安装步骤
+- [离线 Docker 安装](docker/off-line-docker.md) - 离线环境下 Docker 的安装和配置方法
 
 ## 贡献指南
 

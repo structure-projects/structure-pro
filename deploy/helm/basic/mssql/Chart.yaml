@@ -1,6 +1,0 @@
-apiVersion: v2
-name: mssql
-description: mssql数据库
-type: application
-version: 1.0.1
-appVersion: "2022-latest"

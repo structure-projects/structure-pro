@@ -1,0 +1,47 @@
+appId: {appId}
+component: scf
+name: mysql5
+stage: prod
+org: {org}
+app: mysql5-app
+inputs:
+  name: mysql5
+  src:
+    src: ./
+    exclude:
+      - .env
+  region: ap-guangzhou
+  runtime: CustomContainer
+  description: MySQL 5.7 Database
+  namespace: default
+  type: web
+  memorySize: 2048
+  timeout: 300
+  initTimeout: 300
+  cls:
+    logsetId: ''
+    topicId: ''
+  layers: []
+  environment:
+    variables:
+
+  containerConf:
+    image: mysql:5.7
+    containerPort: 3306
+    imageTag: latest
+  vpcConfig:
+    vpcId: ''
+    subnetId: ''
+  triggers:
+    - type: apigw
+      parameters:
+        name: mysql5-apigw
+        protocols:
+          - http
+          - https
+        serviceName: serverless
+        description: API Gateway trigger for mysql5
+        environment: release
+        endPoints:
+          - path: /
+            method: ANY

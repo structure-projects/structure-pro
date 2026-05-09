@@ -1,0 +1,35 @@
+{{- if .Values.kibana.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "logstash-kibana.kibana.fullname" . }}
+  labels:
+    {{- include "logstash-kibana.labels" . | nindent 4 }}
+  annotations:
+    {{- toYaml .Values.kibana.ingress.annotations | nindent 4 }}
+spec:
+  ingressClassName: {{ .Values.kibana.ingress.className }}
+  rules:
+    {{- range .Values.kibana.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          - path: {{ .paths | default "/" }}
+            pathType: {{ .pathType | default "Prefix" }}
+            backend:
+              service:
+                name: {{ include "logstash-kibana.kibana.fullname" $ }}
+                port:
+                  number: {{ $.Values.kibana.service.port }}
+    {{- end }}
+  {{- if .Values.kibana.ingress.tls }}
+  tls:
+    {{- range .Values.kibana.ingress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
+{{- end }}

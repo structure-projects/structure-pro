@@ -1,0 +1,21 @@
+version: '3'
+services:
+  seata-server:
+    restart: always
+    image: seataio/seata-server:1.5.2
+    deploy:
+      placement:
+        constraints:
+          - node.role == worker
+    volumes:
+      - ${PWD}/application.yaml:/seata-server/resources/application.yml
+      - ${PWD}/logs:/root/logs
+    ports:
+      - 7091:7091
+      - 8091:8091
+    container_name: "seata-server"
+    networks:
+      - structure-cloud-work
+networks:
+  structure-cloud-work:
+    external: true

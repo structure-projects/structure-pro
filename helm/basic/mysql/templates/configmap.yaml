@@ -1,0 +1,15 @@
+apiVersion: v1
+data:
+  init.sql: |+
+    create schema nacos_config;
+    use nacos_config;
+    create schema user;
+    use user;
+    create schema admin;
+    use admin;
+    create schema oauth;
+    use oauth;
+    create schema xxl_job;
+kind: ConfigMap
+metadata:
+  name: mysql-cm

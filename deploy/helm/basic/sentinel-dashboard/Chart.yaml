@@ -1,6 +1,0 @@
-apiVersion: v2
-name: sentinel-dashboard
-description: sentinel-dashboard流量控制
-type: application
-version: 1.0.1
-appVersion: "1.8.8"

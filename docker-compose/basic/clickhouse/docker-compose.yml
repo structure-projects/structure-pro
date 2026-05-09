@@ -1,0 +1,26 @@
+networks:
+  structure-cloud-work:
+        external: true
+services:
+    clickhouse:
+        container_name: clickhouse
+        deploy:
+            placement:
+                constraints:
+                    - node.role == manager
+        image: clickhouse/clickhouse-server:24.10.1-alpine
+        labels:
+            createdBy: Apps
+        networks:
+          - structure-cloud-work
+        ports:
+            - 18123:8123
+            - 19000:9000
+        restart: always
+        ulimits:
+            nofile:
+                hard: 262144
+                soft: 262144
+        volumes:
+            - ${PWD}/clickhouse:/var/lib/clickhouse/
+            - ${PWD}/clickhouse-server:/var/log/clickhouse-server/

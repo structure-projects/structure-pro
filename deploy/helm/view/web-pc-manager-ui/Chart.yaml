@@ -1,6 +1,0 @@
-apiVersion: v2
-name: web-pc-manager-ui
-description: 管理系统(WEB-PC)
-type: application
-version: 1.0.1
-appVersion: "1.0.1"

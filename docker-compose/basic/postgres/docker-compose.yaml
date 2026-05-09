@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:13-alpine
+    restart: always  #每次总是启动
+    hostname: postgres
+    networks:
+      - structure-cloud-work
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    deploy:
+      restart_policy:
+        condition: on-failure
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+    ports:
+      - "5432:5432"
+    volumes:
+      - ${PWD}/data:/var/lib/postgresql/data
+networks:
+  structure-cloud-work:
+    external: true

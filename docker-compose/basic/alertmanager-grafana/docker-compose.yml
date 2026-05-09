@@ -1,0 +1,57 @@
+networks:
+    structure-cloud-work:
+        external: true
+services:
+    alertmanager:
+        container_name: structure-alertmanager
+        image: prom/alertmanager:v0.27.0
+        deploy:
+            resources:
+                limits:
+                  cpus: "0.5"
+                  memory: "512m"
+            placement:
+                constraints:
+                    - node.role == worker
+        networks:
+            - structure-cloud-work
+        ports:
+            - "9093:9093"
+            - "9094:9094"
+        volumes:
+            - ${PWD}/alertmanager.conf:/etc/alertmanager/alertmanager.conf
+            - ${PWD}/rules:/etc/alertmanager/rules
+            - ${PWD}/data:/alertmanager
+        command:
+            - '--config.file=/etc/alertmanager/alertmanager.conf'
+            - '--storage.path=/alertmanager'
+            - '--web.listen-address=:9093'
+            - '--log.level=info'
+        restart: always
+
+    grafana:
+        container_name: structure-grafana
+        image: grafana/grafana:10.4.0
+        deploy:
+            resources:
+                limits:
+                    cpus: "1"
+                    memory: 1G
+            placement:
+                constraints:
+                    - node.role == worker
+        networks:
+            - structure-cloud-work
+        ports:
+            - "3000:3000"
+        volumes:
+            - ./grafana/provisioning:/etc/grafana/provisioning
+            - ./grafana/dashboards:/var/lib/grafana/dashboards
+            - ./grafana/data:/var/lib/grafana
+        environment:
+            - GF_SECURITY_ADMIN_USER=admin
+            - GF_SECURITY_ADMIN_PASSWORD=admin123
+            - GF_USERS_ALLOW_SIGN_UP=false
+            - GF_SERVER_ROOT_URL=http://grafana.local
+            - GF_INSTALL_PLUGINS=grafana-piechart-panel,grafana-clock-panel
+        restart: always

@@ -1,0 +1,32 @@
+name: prometheus
+description: Prometheus Monitoring
+region: cn-north-4
+project: {project}
+function:
+  name: prometheus
+  description: Prometheus Monitoring
+  runtime: CustomImage
+  handler: ''
+  memorySize: 2048
+  timeout: 300
+  codeType: CustomImage
+  customImage:
+    image: prom/prometheus:latest
+    port: 9090
+  environmentVariables:
+
+  vpcId: ''
+  subnetId: ''
+  enterpriseProjectId: default
+  agency: ''
+  xrole: ''
+  concurrency:
+    strategy: dynamic
+    maxConcurrent: 100
+  triggers:
+    - triggerType: APIG
+      eventData:
+        auth: IAM
+        name: prometheus-apig
+        protocol: HTTP
+        timeout: 5000
