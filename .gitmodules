@@ -58,3 +58,6 @@
 [submodule "structure-product"]
 	path = structure-product
 	url = https://github.com/structure-projects/structure-product.git
+[submodule "structure-seller"]
+	path = structure-seller
+	url = https://github.com/structure-projects/structure-seller.git
