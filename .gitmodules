@@ -64,3 +64,6 @@
 [submodule "structure-risk"]
 	path = structure-risk
 	url = https://github.com/structure-projects/structure-risk.git
+[submodule "structure-pay"]
+	path = structure-pay
+	url = https://github.com/structure-projects/structure-pay.git
