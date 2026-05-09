@@ -60,6 +60,10 @@ git submodule update --remote
 | structure-data | 数据模块 |
 | structure-iam | 身份访问管理 |
 | structure-gateway-adapter | 网关适配器 |
+| structure-crm | 客户关系管理 |
+| structure-erp | 企业资源计划 |
+| structure-oa | 办公自动化 |
+| structure-hr | 人力资源管理 |
 
 ### 一键启动
 

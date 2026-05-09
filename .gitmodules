@@ -106,3 +106,6 @@
 [submodule "structure-hr"]
 	path = structure-hr
 	url = https://github.com/structure-projects/structure-hr.git
+[submodule "structure-agent"]
+	path = structure-agent
+	url = https://github.com/structure-projects/structure-agent.git
