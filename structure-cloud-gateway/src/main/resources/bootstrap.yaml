@@ -13,7 +13,7 @@ spring:
         metadata:
           version: 1.0.0 # 服务实例的版本号，可用于灰度发布
         group: ${NACOC_GROUP:${spring.profiles.active}}
-        enabled: ${NACOS_DISCOVERY_ENABLE:true}
+        enabled: ${NACOS_DISCOVERY_ENABLE:false}
         username: ${NACOS_USERNAME:structure}
         password: ${NACOS_PASSWORD:structure}
       config:
@@ -22,19 +22,17 @@ spring:
         group: ${NACOC_GROUP:${spring.profiles.active}}
         name: ${spring.application.name}
         file-extension: yaml
-        enabled: ${NACOS_CONFIG_ENABLE:true}
+        enabled: ${NACOS_CONFIG_ENABLE:false}
       username: ${NACOS_USERNAME:structure}
       password: ${NACOS_PASSWORD:structure}
 management:
   endpoint:
     health:
       show-details: always
-  server:
-    port: 7777
 structure:
   log:
     aop:
-      expression: execution(public * cn.structured.user.controller..*Controller.*(..))
+      expression: execution(public * cn.structured.gateway.controller..*Controller.*(..))
 ---
 spring:
   config:
@@ -50,3 +48,9 @@ spring:
   config:
     activate:
       on-profile: pro
+management:
+  endpoint:
+    health:
+      show-details: always
+  server:
+    port: 7777
