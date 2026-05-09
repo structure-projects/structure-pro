@@ -82,3 +82,9 @@
 [submodule "structure-portal"]
 	path = structure-portal
 	url = https://github.com/structure-projects/structure-portal.git
+[submodule "structure-bpm"]
+	path = structure-bpm
+	url = https://github.com/structure-projects/structure-bpm.git
+[submodule "structure-data"]
+	path = structure-data
+	url = https://github.com/structure-projects/structure-data.git
