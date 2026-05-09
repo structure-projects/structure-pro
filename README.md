@@ -9,6 +9,38 @@
 - **Docker**: 20.10+
 - **Docker Compose**: 1.29+
 
+### 拉取子模块
+
+项目使用 Git 子模块管理多个组件，首次克隆后需要初始化并拉取子模块：
+
+```bash
+# 初始化并拉取所有子模块（推荐）
+git submodule update --init --recursive
+
+# 查看子模块状态
+git submodule status
+
+# 更新子模块到远程最新版本
+git submodule update --remote
+```
+
+#### 子模块列表
+
+| 子模块 | 说明 |
+|--------|------|
+| structure-gateway | API 网关 |
+| structure-oauth | OAuth 认证中心 |
+| structure-user | 用户中心 |
+| structure-admin | 管理中心后端 |
+| structure-admin-ui | 管理中心前端 |
+| structure-boot | Spring Boot 启动器 |
+| structure-cloud | 微服务依赖 |
+| structure-job | 定时任务 |
+| structure-security | 安全模块 |
+| structure-docs | 文档 |
+| somcli | 命令行工具 |
+| structure-monitor | 监控模块 |
+
 ### 一键启动
 
 ```bash
