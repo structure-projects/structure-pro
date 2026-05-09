@@ -67,3 +67,6 @@
 [submodule "structure-pay"]
 	path = structure-pay
 	url = https://github.com/structure-projects/structure-pay.git
+[submodule "structure-content"]
+	path = structure-content
+	url = https://github.com/structure-projects/structure-content.git
