@@ -61,3 +61,6 @@
 [submodule "structure-seller"]
 	path = structure-seller
 	url = https://github.com/structure-projects/structure-seller.git
+[submodule "structure-risk"]
+	path = structure-risk
+	url = https://github.com/structure-projects/structure-risk.git
