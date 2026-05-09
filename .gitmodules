@@ -91,3 +91,6 @@
 [submodule "structure-iam"]
 	path = structure-iam
 	url = https://github.com/structure-projects/structure-iam.git
+[submodule "structure-gateway-adapter"]
+	path = structure-gateway-adapter
+	url = https://github.com/structure-projects/structure-gateway-adapter.git
