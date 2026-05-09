@@ -56,6 +56,10 @@ git submodule update --remote
 | structure-incentive | 激励模块 |
 | structure-sso | 单点登录 |
 | structure-portal | 门户模块 |
+| structure-bpm | 工作流模块 |
+| structure-data | 数据模块 |
+| structure-iam | 身份访问管理 |
+| structure-gateway-adapter | 网关适配器 |
 
 ### 一键启动
 

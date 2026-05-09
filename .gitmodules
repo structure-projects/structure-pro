@@ -94,3 +94,15 @@
 [submodule "structure-gateway-adapter"]
 	path = structure-gateway-adapter
 	url = https://github.com/structure-projects/structure-gateway-adapter.git
+[submodule "structure-crm"]
+	path = structure-crm
+	url = https://github.com/structure-projects/structure-crm.git
+[submodule "structure-erp"]
+	path = structure-erp
+	url = https://github.com/structure-projects/structure-erp.git
+[submodule "structure-oa"]
+	path = structure-oa
+	url = https://github.com/structure-projects/structure-oa.git
+[submodule "structure-hr"]
+	path = structure-hr
+	url = https://github.com/structure-projects/structure-hr.git
