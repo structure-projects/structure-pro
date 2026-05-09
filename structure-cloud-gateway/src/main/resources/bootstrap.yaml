@@ -29,10 +29,7 @@ management:
   endpoint:
     health:
       show-details: always
-structure:
-  log:
-    aop:
-      expression: execution(public * cn.structured.gateway.controller..*Controller.*(..))
+
 ---
 spring:
   config:
