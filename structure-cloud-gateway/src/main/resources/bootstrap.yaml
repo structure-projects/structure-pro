@@ -1,41 +1,52 @@
 server:
-  port: 7777
+  port: 8080
 spring:
   profiles:
     active: dev
   application:
-    name: admin-center
+    name: structure-gateway
   cloud:
     nacos:
-      server-addr: ${nacos-server}
+      server-addr: ${NACOS_SERVER:nacos.structured.cn:8848}
       discovery:
-        namespace: 5a4e4c1f-beda-4ae5-a3d7-428950e7473b
+        namespace: ${NACOS_NAMESPACE:5a4e4c1f-beda-4ae5-a3d7-428950e7473b}
         metadata:
-          version: 1.0.1 # 服务实例的版本号，可用于灰度发布
-        group: ${spring.profiles.active}
+          version: 1.0.0 # 服务实例的版本号，可用于灰度发布
+        group: ${NACOC_GROUP:${spring.profiles.active}}
+        enabled: ${NACOS_DISCOVERY_ENABLE:true}
+        username: ${NACOS_USERNAME:structure}
+        password: ${NACOS_PASSWORD:structure}
       config:
-        server-addr:  ${nacos-server}
-        namespace: 5a4e4c1f-beda-4ae5-a3d7-428950e7473b
-        group: ${spring.profiles.active}
+        server-addr: ${NACOS_SERVER:nacos.structured.cn:8848}
+        namespace: ${NACOS_NAMESPACE:5a4e4c1f-beda-4ae5-a3d7-428950e7473b}
+        group: ${NACOC_GROUP:${spring.profiles.active}}
         name: ${spring.application.name}
         file-extension: yaml
-  main:
-    allow-circular-references: true
+        enabled: ${NACOS_CONFIG_ENABLE:true}
+      username: ${NACOS_USERNAME:structure}
+      password: ${NACOS_PASSWORD:structure}
 management:
   endpoint:
     health:
       show-details: always
+  server:
+    port: 7777
+structure:
+  log:
+    aop:
+      expression: execution(public * cn.structured.user.controller..*Controller.*(..))
 ---
 spring:
   config:
     activate:
       on-profile: dev
-nacos-server: nacos-server:8848
-server:
-  port: 18000
+---
+spring:
+  config:
+    activate:
+      on-profile: poc
 ---
 spring:
   config:
     activate:
       on-profile: pro
-nacos-server: nacos-0.nacos:8848,nacos-1.nacos:8848,nacos-2.nacos:8848
