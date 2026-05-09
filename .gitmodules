@@ -46,3 +46,6 @@
 [submodule "structure-alert"]
 	path = structure-alert
 	url = https://github.com/structure-projects/structure-alert.git
+[submodule "structure-audit"]
+	path = structure-audit
+	url = https://github.com/structure-projects/structure-audit.git
