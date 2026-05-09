@@ -1,0 +1,3 @@
+[submodule "structure-gateway"]
+	path = structure-gateway
+	url = https://github.com/structure-projects/structure-gateway.git
