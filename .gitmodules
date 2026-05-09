@@ -43,3 +43,6 @@
 [submodule "structure-ops"]
 	path = structure-ops
 	url = https://github.com/structure-projects/structure-ops.git
+[submodule "structure-alert"]
+	path = structure-alert
+	url = https://github.com/structure-projects/structure-alert.git
