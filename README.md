@@ -64,6 +64,7 @@ git submodule update --remote
 | structure-erp | 企业资源计划 |
 | structure-oa | 办公自动化 |
 | structure-hr | 人力资源管理 |
+| structure-agent | 代理模块 |
 
 ### 一键启动
 
