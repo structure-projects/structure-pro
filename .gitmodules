@@ -34,3 +34,78 @@
 [submodule "structure-monitor"]
 	path = structure-monitor
 	url = https://github.com/structure-projects/structure-monitor.git
+[submodule "structure-message"]
+	path = structure-message
+	url = https://github.com/structure-projects/structure-message.git
+[submodule "structure-ops"]
+	path = structure-ops
+	url = https://github.com/structure-projects/structure-ops.git
+[submodule "structure-alert"]
+	path = structure-alert
+	url = https://github.com/structure-projects/structure-alert.git
+[submodule "structure-audit"]
+	path = structure-audit
+	url = https://github.com/structure-projects/structure-audit.git
+[submodule "structure-member"]
+	path = structure-member
+	url = https://github.com/structure-projects/structure-member.git
+[submodule "structure-account"]
+	path = structure-account
+	url = https://github.com/structure-projects/structure-account.git
+[submodule "structure-order"]
+	path = structure-order
+	url = https://github.com/structure-projects/structure-order.git
+[submodule "structure-product"]
+	path = structure-product
+	url = https://github.com/structure-projects/structure-product.git
+[submodule "structure-seller"]
+	path = structure-seller
+	url = https://github.com/structure-projects/structure-seller.git
+[submodule "structure-risk"]
+	path = structure-risk
+	url = https://github.com/structure-projects/structure-risk.git
+[submodule "structure-pay"]
+	path = structure-pay
+	url = https://github.com/structure-projects/structure-pay.git
+[submodule "structure-content"]
+	path = structure-content
+	url = https://github.com/structure-projects/structure-content.git
+[submodule "structure-advertising"]
+	path = structure-advertising
+	url = https://github.com/structure-projects/structure-advertising.git
+[submodule "structure-incentive"]
+	path = structure-incentive
+	url = https://github.com/structure-projects/structure-incentive.git
+[submodule "structure-sso"]
+	path = structure-sso
+	url = https://github.com/structure-projects/structure-sso.git
+[submodule "structure-portal"]
+	path = structure-portal
+	url = https://github.com/structure-projects/structure-portal.git
+[submodule "structure-bpm"]
+	path = structure-bpm
+	url = https://github.com/structure-projects/structure-bpm.git
+[submodule "structure-data"]
+	path = structure-data
+	url = https://github.com/structure-projects/structure-data.git
+[submodule "structure-iam"]
+	path = structure-iam
+	url = https://github.com/structure-projects/structure-iam.git
+[submodule "structure-gateway-adapter"]
+	path = structure-gateway-adapter
+	url = https://github.com/structure-projects/structure-gateway-adapter.git
+[submodule "structure-crm"]
+	path = structure-crm
+	url = https://github.com/structure-projects/structure-crm.git
+[submodule "structure-erp"]
+	path = structure-erp
+	url = https://github.com/structure-projects/structure-erp.git
+[submodule "structure-oa"]
+	path = structure-oa
+	url = https://github.com/structure-projects/structure-oa.git
+[submodule "structure-hr"]
+	path = structure-hr
+	url = https://github.com/structure-projects/structure-hr.git
+[submodule "structure-agent"]
+	path = structure-agent
+	url = https://github.com/structure-projects/structure-agent.git
