@@ -9,6 +9,23 @@
 - **Docker**: 20.10+
 - **Docker Compose**: 1.29+
 
+### 拉取子模块
+
+项目使用 Git 子模块管理多个组件，首次克隆后需要初始化并拉取子模块：
+
+```bash
+# 初始化并拉取所有子模块（推荐）
+git submodule update --init --recursive
+
+# 查看子模块状态
+git submodule status
+
+# 更新子模块到远程最新版本
+git submodule update --remote
+```
+
+> 📚 完整的子模块列表请参考：[SUBMODULES.md](./SUBMODULES.md)
+
 ### 一键启动
 
 ```bash
